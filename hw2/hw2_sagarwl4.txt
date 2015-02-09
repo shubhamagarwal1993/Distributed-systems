@@ -34,5 +34,6 @@ Some given facts:
 	The following values will be recorded in the nodes .
 	Round 2: {p1 = 0, p2 = 1, p3 = 0}, {p2 = 1, p1 = 0, p3 = 0}, {p3 = 0, p1 = 0, p2 = 1}, {p4 = crashed}
 
-	So, we see here that the first three nodes all have some values and the fourth one does not matter. We can based on the values decide on a value. In the above case, all the nodes can decide on the value 0 as the new value. 
+	So, we see here that the first three nodes all have some values and the fourth one does not matter. We can based on the values decide 
+	on a value. In the above case, all the nodes can decide on the value 0 as the new value. 
 	
