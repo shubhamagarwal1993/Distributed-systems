@@ -23,7 +23,8 @@ Homework 2 Answer Sheet
 
 Some given facts:
 	-	Nodes use a reliable broadcast channel. Thus, we will not have any conditions in which packets drop or have to be resent, or anything else.
-	-	Each transmitted message is received by all the nodes. Thus, we will also not have the condition of a node sending messages to some of the nodes and then failing preventing the other nodes from getting the broadcast.
+	-	Each transmitted message is received by all the nodes. Thus, we will also not have the condition of a node sending messages to some of the nodes and then failing preventing the other
+		nodes from getting the broadcast.
 
 	Let us assume that the nodes have an initial value. By the consensus problem, we agree that all the nodes will choose the value that is supported by the maximum number of nodes.
 
