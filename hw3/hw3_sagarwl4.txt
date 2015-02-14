@@ -3,7 +3,7 @@ netid: sagarwl4
 
 
 CS 425/ECE 428 Distributed Systems
-Homework 2 Answer Sheet
+Homework 3 Answer Sheet
 
 
 1. (a) The cut is not consistent as the event ‘e’ is not included in the cut but ‘g’ is included and g takes place after ‘e’.
@@ -12,6 +12,7 @@ Homework 2 Answer Sheet
 
 2.	No, it is not possible to solve the Byzantine Generals problem on such a network.
 
+Explanation:	
 	Let the number of nodes be ‘n’. For consensus of a single common value, nodes send their individual value to all the other ‘n-1’ nodes. We take the value which has the most number of occurrences and that becomes the final value 	which all the nodes take. 
 	If we have 4 nodes, the following scenario can be possible which will not let us decide on a common value.
 
@@ -33,6 +34,7 @@ Homework 2 Answer Sheet
 
 3	No, it is not possible to solve the Byzantine Generals problem on such a network.
 
+Explanation:
 	If we have 4 nodes, the following scenario can be possible which will not let us decide on a common value.
 
 	Round 1: {p0 = 0}, {p1 = 1}, {p2 = 1}, {p3 = 0}
@@ -45,7 +47,7 @@ Homework 2 Answer Sheet
 	So, we see here that the nodes p1 and p3 have different values and there is no majority and rather no input from other nodes to decide upon a common value which all the nodes can use as their final value.
 
 
-Extra: 
+Recommended: 
 	Even if there was only one Byzantine faulty node then also this problem could not have been solved as there would have been three nodes alive but only two of them would really communicate and with two values, we cannot decide on 	one value which will be majority.
 
 	Below is how:
