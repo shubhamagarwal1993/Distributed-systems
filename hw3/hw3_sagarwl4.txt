@@ -32,7 +32,7 @@ Explanation:
 	n >= 3f + 1. On solving this equation, we can see that for two nodes, we can have either have one or no failures for the system to be stable.
 
 
-3	No, it is not possible to solve the Byzantine Generals problem on such a network.
+3	No, it is not possible to solve the problem on such a network.
 
 Explanation:
 	If we have 4 nodes, the following scenario can be possible which will not let us decide on a common value.
@@ -48,7 +48,7 @@ Explanation:
 
 
 Recommended: 
-	Even if there was only one Byzantine faulty node then also this problem could not have been solved as there would have been three nodes alive but only two of them would really communicate and with two values, we cannot decide on 	one value which will be majority.
+	Even if there was only one faulty node then also this problem could not have been solved as there would have been three nodes alive but only two of them would really communicate and with two values, we cannot decide on 	one value which will be majority.
 
 	Below is how:
 
