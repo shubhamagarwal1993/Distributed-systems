@@ -7,21 +7,26 @@ import threading
 import time
 import readline
 import io
+import random
 #from thread import *
 #from threading import Thread
 #from time import sleep
 
-TCP_IP = '127.0.0.1'
-TCP_PORT = 5004
-BUFFER_SIZE = 1024
-aString = 'i am server4'
-#argString = raw_input('')
-#print argString
+f=open('config4.txt')
+lines=f.readlines()
+
+TCP_IP = lines[1].rstrip('\n')
+TCP_PORT = lines[2]
+BUFFER_SIZE = lines[5]
+aString = 'i am server1'
 
 Server_TCP_IP = '127.0.0.1'
 
+#Max delay time in seconds
+MAX = lines[20]
+
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind((TCP_IP, TCP_PORT))
+s.bind((TCP_IP, int(TCP_PORT)))
 s.listen(1)
 
 #defination of a thread to read a message
@@ -33,6 +38,8 @@ def get_msg():
 		if firstWord=="Send":
 			secondWord = word[1]
 			thirdWord = word[2]
+			wait_time = random.randint(0, int(MAX))						#pick a random number between 0 and MAX
+			time.sleep(wait_time)									#delay for MAX seconds
 			s1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 			s1.connect((Server_TCP_IP, int(thirdWord)))
 			s1.send(secondWord)
@@ -67,7 +74,7 @@ thread.start_new_thread(get_msg, ())
 #this will do the listening part and print incoming messagaes
 while 1:
 	conn, addr = s.accept()
-	data = conn.recv(BUFFER_SIZE)
+	data = conn.recv(int(BUFFER_SIZE))
 	if data:
 		print "Received %s from %s, Max delay is , system time is" % (data, addr)
 conn.close()
