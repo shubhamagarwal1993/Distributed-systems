@@ -8,6 +8,7 @@ import time
 import readline
 import io
 import random
+import re
 #from thread import *
 #from threading import Thread
 #from time import sleep
@@ -19,6 +20,7 @@ TCP_IP = lines[1].rstrip('\n')
 TCP_PORT = lines[2]
 BUFFER_SIZE = lines[5]
 aString = 'i am server1'
+my_server_id = 1
 
 Server_TCP_IP = '127.0.0.1'
 
@@ -28,21 +30,27 @@ firstWord = 'a'
 secondWord = 'a'
 thirdWord = 1
 
+#trying to implement FIFO
+send_packet_no = 0
+recv_packet_no = 0
+recv_buffer = { recv_packet_no: secondWord };
+
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((TCP_IP, int(TCP_PORT)))
 s.listen(1)
 
 def wait_thread():
 	local=secondWord
+	print_local = local.split()
+	print_local = print_local[0]
 	wait_time = random.randint(0, int(MAX))			#pick a random number between 0 and MAX
 	s1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	s1.connect((Server_TCP_IP, int(thirdWord)))
-	print "Sent %s to %s, system time is" %(secondWord, thirdWord)
+	print "Sent %s to %s, system time is" %(print_local, thirdWord)
 	time.sleep(wait_time)							#delay for MAX seconds
 	s1.send(local)
 	s1.close()
 
-	
 
 #defination of a thread to read a message
 def get_msg():
@@ -52,8 +60,17 @@ def get_msg():
 		global firstWord
 		firstWord = word[0]
 		if firstWord=="Send":
+			temp_secondWord = word[1]
+			temp_secondWord = temp_secondWord.rstrip('\n')
+			global send_packet_no
+			send_packet_no = send_packet_no+1
+			temp_secondWord = temp_secondWord + " "
+			temp_secondWord = temp_secondWord + str(send_packet_no)
+			temp_secondWord = temp_secondWord + " "
+			temp_secondWord = temp_secondWord + str(my_server_id)
 			global secondWord
-			secondWord = word[1]
+			secondWord = str(temp_secondWord)
+			secondWord = secondWord.rstrip('\n')			
 			global thirdWord
 			thirdWord = word[2]
 			thread.start_new_thread(wait_thread, ())
@@ -89,5 +106,15 @@ while 1:
 	conn, addr = s.accept()
 	data = conn.recv(int(BUFFER_SIZE))
 	if data:
+		data = data.rstrip('\n')
+		temp_data = data.split(' ')
+		recv_packet_no = temp_data[1]
+		data = temp_data[0]
+		server_id = temp_data[2]
 		print "Received %s from %s, Max delay is , system time is" % (data, addr)
 conn.close()
+
+# part 2
+# implement a Key-Value storage system
+# each server may potentially store the value for each key in the shared datastore. Use positive integers as Key and Value both.
+# 

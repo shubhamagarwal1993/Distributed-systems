@@ -8,6 +8,7 @@ import time
 import readline
 import io
 import random
+import re
 #from thread import *
 #from threading import Thread
 #from time import sleep
@@ -18,7 +19,8 @@ lines=f.readlines()
 TCP_IP = lines[1].rstrip('\n')
 TCP_PORT = lines[2]
 BUFFER_SIZE = lines[5]
-aString = 'i am server1'
+aString = 'i am server2'
+my_server_id = 2
 
 Server_TCP_IP = '127.0.0.1'
 
@@ -27,6 +29,11 @@ MAX = lines[20]
 firstWord = 'a'
 secondWord = 'a'
 thirdWord = 1
+
+#trying to implement FIFO
+send_packet_no = 0
+recv_packet_no = 0
+recv_buffer = { recv_packet_no: secondWord };
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((TCP_IP, int(TCP_PORT)))
@@ -51,11 +58,19 @@ def get_msg():
 		global firstWord
 		firstWord = word[0]
 		if firstWord=="Send":
+			temp_secondWord = word[1]
+			temp_secondWord = temp_secondWord.rstrip('\n')
+			global send_packet_no
+			send_packet_no = send_packet_no+1
+			temp_secondWord = temp_secondWord + " "
+			temp_secondWord = temp_secondWord + str(send_packet_no)
+			temp_secondWord = temp_secondWord + " "
+			temp_secondWord = temp_secondWord + str(my_server_id)
 			global secondWord
-			secondWord = word[1]
+			secondWord = str(temp_secondWord)
+			secondWord = secondWord.rstrip('\n')
 			global thirdWord
 			thirdWord = word[2]
-			print "thirdWord in parent = %s", thirdWord
 			thread.start_new_thread(wait_thread, ())
 
 #defination of thread to send a message to a specified address and port
@@ -89,5 +104,10 @@ while 1:
 	conn, addr = s.accept()
 	data = conn.recv(int(BUFFER_SIZE))
 	if data:
+		data = data.rstrip('\n')
+		temp_data = data.split(' ')
+		recv_packet_no = temp_data[1]
+		data = temp_data[0]
+		server_id = temp_data[2]
 		print "Received %s from %s, Max delay is , system time is" % (data, addr)
 conn.close()

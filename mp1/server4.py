@@ -24,27 +24,40 @@ Server_TCP_IP = '127.0.0.1'
 
 #Max delay time in seconds
 MAX = lines[20]
+firstWord = 'a'
+secondWord = 'a'
+thirdWord = 1
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((TCP_IP, int(TCP_PORT)))
 s.listen(1)
+
+def wait_thread():
+	local=secondWord
+	wait_time = random.randint(0, int(MAX))			#pick a random number between 0 and MAX
+	s1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	s1.connect((Server_TCP_IP, int(thirdWord)))
+	print "Sent %s to %s, system time is" %(secondWord, thirdWord)
+	time.sleep(wait_time)							#delay for MAX seconds
+	s1.send(local)
+	s1.close()
+	
 
 #defination of a thread to read a message
 def get_msg():
 	while True:
 		aString = raw_input('')
 		word = aString.split()
+		global firstWord
 		firstWord = word[0]
 		if firstWord=="Send":
+			global secondWord
 			secondWord = word[1]
+			global thirdWord
 			thirdWord = word[2]
-			wait_time = random.randint(0, int(MAX))						#pick a random number between 0 and MAX
-			time.sleep(wait_time)									#delay for MAX seconds
-			s1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-			s1.connect((Server_TCP_IP, int(thirdWord)))
-			s1.send(secondWord)
-			s1.close()
-			print "Sent %s to %s, system time is" %(secondWord, thirdWord)
+			print "thirdWord in parent = %s", thirdWord
+			thread.start_new_thread(wait_thread, ())
+
 #defination of thread to send a message to a specified address and port
 def print_msg():
 	while True:
