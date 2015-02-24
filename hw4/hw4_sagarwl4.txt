@@ -1,0 +1,34 @@
+
+
+NAME:		SHUBHAM AGARWAL
+netid: 		SAGARWL4
+
+
+CS 425/ECE 428 Distributed Systems
+Homework 4 Answer Sheet
+
+
+1. No. A counter example is as follows. A diagram of the same has been included on subversion.
+	Eg.
+	Let there be 4 events M1, M2, M3, M4 and 2 processes P1, and P2.
+	Now M1->M4, M1->M2, M2->M3
+	Let M1 and M4 be broadcast messages from P1
+	Let M2 and M3 be broadcast messages from P2
+	Thus, on drawing the diagram, we see that we can get one case where P1 will get messages in the order M2, M1, M3, M4.
+	We have achieved FIFO and total-ordering here but not causal ordering. 
+
+2. No. A counter example is as follows. A diagram of the same has been included on subversion.
+	Eg. This example has been taken from the lecture slides. 
+
+
+3. (a) 
+3. (b)
+
+4. f -> (2, 4, 2)
+   g -> (0, 2, 1)
+ 
+
+5. (a) false
+	It should be x->y if and only if V(x)<V(y)
+5. (b) true
+	Since the time stamps have two different values, they are concurrent. 
