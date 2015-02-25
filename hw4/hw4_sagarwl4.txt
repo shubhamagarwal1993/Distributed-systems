@@ -22,18 +22,21 @@ Homework 4 Answer Sheet
 	causal, which also implies FIFO is not the same as causal ordering. 
 
 
-3. (a) The vector Y[1] = (4X/9) + (5Y/9)
-		The working is done in a pdf on subversion.
+3. (a) X[1] = [5/3]
+	   Y[1] = [4/3]
+	   The working is done in a pdf on subversion.
 		
-3. (b) Yes, average con	sensus is achievable by the resulting algorithm as the graph is strongly connected. 
+3. (b) No, average consensus is not achievable by the resulting algorithm as the graph is not strongly connected. 
 		i.e. paths between all pairs of nodes is present.
+	   
+	   	This is because the elements in rows and columns do not add up to 1.
 	   	A diagram of the same has been drawn in the pdf on subversion.	
 
 4. f -> (2, 4, 2)
    g -> (0, 2, 1)
  
 
-5. (a) false
-	It should be x->y if and only if V(x)<V(y)
+5. (a) True
+	If it had been V(x) <= V(y), then it would be false.
 5. (b) true
 	Since the time stamps have two different values, they are concurrent. 
