@@ -21,7 +21,8 @@ Homework 4 Answer Sheet
 	orderings, we see that:
 
 	Causal oredering implies FIFO ordering.
-	Causal ordering does not imply total ordering as we can see that the order in which the packets are received by causal and total ordering are not the same. 
+	Causal ordering does not imply total ordering as we can see that the order in which the packets are received by causal
+	and total ordering are not the same. 
 	Thus, causal and FIFO ordering together do not imply Causal ordering. 
 
 
