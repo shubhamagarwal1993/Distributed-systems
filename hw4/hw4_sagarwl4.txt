@@ -56,5 +56,5 @@ Homework 4 Answer Sheet
  
 5. (a) True
 	If it had been V(x) <= V(y), then it would be false.
-5. (b) true
+5. (b) True
 	Since the time stamps have two different values, they are concurrent. 
