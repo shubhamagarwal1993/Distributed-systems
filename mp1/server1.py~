@@ -299,7 +299,15 @@ def get_msg():
 					s0.send(msg_to_send)
 					s0.close()			
 				elif (Model == 2):
-					return
+					msg_to_send = "get"
+					msg_to_send = msg_to_send + ' '
+					msg_to_send = msg_to_send + str(Key)
+					msg_to_send = ' ' + msg_to_send
+					msg_to_send = "central_server" + msg_to_send				
+					s0 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+					s0.connect((Server_TCP_IP, my_server_id))
+					s0.send(msg_to_send)
+					s0.close()			
 				elif (Model == 3):				
 					return
 				elif (Model == 4):
@@ -317,7 +325,7 @@ def get_msg():
 				Key = int(word[1])
 				Value = int(word[2])
 				Model = int(word[3])				
-				if (Model == 1):
+				if ((Model == 1) or (Model == 2)):
 					msg_to_send = str(firstWord)
 					msg_to_send = msg_to_send + ' '
 					msg_to_send = msg_to_send + str(Key)
@@ -329,8 +337,6 @@ def get_msg():
 					s0.connect((Server_TCP_IP, 5000))
 					s0.send(msg_to_send)
 					s0.close()			
-				elif (Model == 2):
-					return
 				elif (Model == 3):				
 					return
 				elif (Model == 4):
@@ -347,7 +353,7 @@ def get_msg():
 				Key = int(word[1])
 				Value = int(word[2])
 				Model = int(word[3])				
-				if (Model == 1):
+				if ((Model == 1) or (Model == 2)):
 					msg_to_send = str(firstWord)
 					msg_to_send = msg_to_send + ' '
 					msg_to_send = msg_to_send + str(Key)
@@ -359,8 +365,6 @@ def get_msg():
 					s0.connect((Server_TCP_IP, 5000))
 					s0.send(msg_to_send)
 					s0.close()			
-				elif (Model == 2):
-					return
 				elif (Model == 3):				
 					return
 				elif (Model == 4):
