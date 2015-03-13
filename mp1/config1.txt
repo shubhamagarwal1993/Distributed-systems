@@ -1,7 +1,7 @@
 # my server IP address and port number
 127.0.0.1
 5001
-
+5005
 # buffer size of my server
 1024
 

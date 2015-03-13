@@ -18,7 +18,7 @@ TCP_IP = lines[1].rstrip('\n')
 TCP_PORT = lines[2]
 BUFFER_SIZE = lines[5]
 aString = 'i am central server'
-my_server_id = 0
+my_server_id = 5005
 
 Server_TCP_IP = '127.0.0.1'
 
@@ -42,11 +42,9 @@ def q1_thread():
 		s11 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		print q
 		msg_to_send = q[0][0]
-		msg_to_send = ' ' + msg_to_send
-		msg_to_send = "central_server" + msg_to_send  
 		s11.connect((Server_TCP_IP, 5001))
 		s11.send(msg_to_send)
-		ttt = s11.recv(5)
+		#ttt = s11.recv(5)
 		s11.close()
 	except socket.error,msg:
 		pass
@@ -59,11 +57,9 @@ def q2_thread():
 	try:
 		s12 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		msg_to_send = q[0][0]
-		msg_to_send = ' ' + msg_to_send
-		msg_to_send = "central_server" + msg_to_send
 		s12.connect((Server_TCP_IP, 5002))
 		s12.send(msg_to_send)
-		drs12.recv(1024)
+		#drs12.recv(1024)
 		s12.close()
 	except socket.error,msg:
 		pass
@@ -76,11 +72,9 @@ def q3_thread():
 	try:
 		s13 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		msg_to_send = q[0][0]
-		msg_to_send = ' ' + msg_to_send
-		msg_to_send = "central_server" + msg_to_send 
 		s13.connect((Server_TCP_IP, 5003))
 		s13.send(msg_to_send)
-		s13.recv(1024)
+		#s13.recv(1024)
 		s13.close()
 	except socket.error,msg:
 		pass
@@ -93,11 +87,9 @@ def q4_thread():
 	try:
 		s14 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		msg_to_send = q[0][0]
-		msg_to_send = ' ' + msg_to_send
-		msg_to_send = "central_server" + msg_to_send 
 		s14.connect((Server_TCP_IP, 5004))
 		s14.send(msg_to_send)
-		s14.recv(1024)
+		#s14.recv(1024)
 		s14.close()
 	except socket.error,msg:
 		pass
@@ -134,43 +126,49 @@ while 1:
 	data = conn.recv(int(BUFFER_SIZE))
 	if data:
 		data = data.rstrip('\n')
+		print "data recv is ", data
 		temp_recv_data = data.split(' ')
-		command = temp_recv_data[0]
-		if(len(temp_recv_data) >= 2):
-			Key = int(temp_recv_data[1])
+		print "split data is ", temp_recv_data
+		command = temp_recv_data[1]
+#		if(len(temp_recv_data) > 2):
+		Key = int(temp_recv_data[2])
+
+
 		if(len(temp_recv_data) >= 3):	
 			Value = int(temp_recv_data[2])
 		if(len(temp_recv_data) >= 4):
 			sender_server = int(temp_recv_data[3]) 	
+#		if(int(len(temp_recv_data)) >= 5):		
+#			time_stamp = int(temp_recv_data[4])
 
 		if (command == "delete"):					#Delete info with key from all replicas
-			msg_to_send = "delete"
-			msg_to_send = msg_to_send + ' '
-			msg_to_send = msg_to_send + str(Key)
-			q.append([msg_to_send, sender_server])
+			sent_server_id = int(temp_recv_data[3])
+			time_stamp = temp_recv_data[4]
+			msg_to_send = "central_server" + ' ' + "delete" + ' ' + str(Key) + ' ' + str(sent_server_id) + ' ' + str(time_stamp)
+			q.append([msg_to_send, sent_server_id])
 			
 		elif (command == "get"):
-			msg_to_send = "get"
-			msg_to_send = msg_to_send + ' '
-			msg_to_send = msg_to_send + str(Key)
-			q.append([msg_to_send, sender_server])
+			sent_server_id = int(temp_recv_data[3])
+			time_stamp = temp_recv_data[4]
+			msg_to_send = "central_server" + ' ' + "get" + ' ' + str(Key) + ' ' + str(sent_server_id) + ' ' + str(time_stamp)
+			q.append([msg_to_send, sent_server_id])
 					
 		elif (command == "insert"):
-			msg_to_send = "insert"
-			msg_to_send = msg_to_send + ' '
-			msg_to_send = msg_to_send + str(Key)
-			msg_to_send = msg_to_send + ' '
-			msg_to_send = msg_to_send + str(Value)
+			Value = int(temp_recv_data[3])
+			sent_server_id = int(temp_recv_data[4])
+			time_stamp = temp_recv_data[5]
+			model = int(temp_recv_data[6])
+			msg_to_send = "central_server" + ' ' + "insert" + ' ' + str(Key) + ' ' + str(Value) + ' ' + str(sent_server_id) + ' ' + str(time_stamp) + ' ' + str(model)
 			print "msg_to_semd", msg_to_send
-			q.append([msg_to_send, sender_server])
+			q.append([msg_to_send, sent_server_id])
 									
 		elif (command == "update"):
-			msg_to_send = "update"
-			msg_to_send = msg_to_send + ' '
-			msg_to_send = msg_to_send + str(Key)
-			msg_to_send = msg_to_send + ' '
-			msg_to_send = msg_to_send + str(Value)
-			q.append([msg_to_send, sender_server])
+			Value = int(temp_recv_data[3])
+			sent_server_id = int(temp_recv_data[4])
+			time_stamp = temp_recv_data[5]
+			model = int(temp_recv_data[6])
+			msg_to_send = "central_server" + ' ' + "update" + ' ' + str(Key) + ' ' + str(Value) + ' ' + str(sent_server_id) + ' ' + str(time_stamp) + ' ' + str(model)
+			q.append([msg_to_send, sent_server_id])
 
 		else:
 			print "wrong command sent to central server"		

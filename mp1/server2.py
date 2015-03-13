@@ -17,8 +17,9 @@ lines=f.readlines()
 TCP_IP = lines[1].rstrip('\n')
 TCP_PORT = lines[2]
 BUFFER_SIZE = lines[5]
-aString = 'i am server1'
-my_server_id = 1
+aString = 'i am server2'
+my_server_id = 5002
+central_server_id = lines[3]
 
 Server_TCP_IP = '127.0.0.1'
 
@@ -44,12 +45,8 @@ def q1_thread():
 				q1[i][1] -= 1
 			if(q1[0][1] <= 0):
 				s1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-				msg_to_send = q1[0][0]
-				msg_to_send = msg_to_send + ' '
-				msg_to_send = msg_to_send + str(q1[0][2])
-				msg_to_send = msg_to_send + ' '
-				msg_to_send = msg_to_send + str(q1[0][3]) 
-				msg_to_send = msg_to_send + ' ' 								
+				msg_to_send = "cmn_server" + ' ' + q1[0][0] + ' ' + str(my_server_id) + ' ' + str(q1[0][3]) + ' ' + str(q1[0][4])
+				#cmn_server secondWord my_server_id timedelay realtime
 				s1.connect((Server_TCP_IP, int(q1[0][2])))
 				s1.send(msg_to_send)
 				s1.close()
@@ -59,12 +56,7 @@ def q1_thread():
 				while True:
 					if (temp_len_q1 > 0):
 						if(q1[0][1] <= 0):
-							msg_to_send = q1[0][0]
-							msg_to_send = msg_to_send + ' '
-							msg_to_send = msg_to_send + str(q1[0][2])
-							msg_to_send = msg_to_send + ' '
-							msg_to_send = msg_to_send + str(q1[0][3]) 
-							msg_to_send = msg_to_send + ' '
+							msg_to_send = "cmn_server" + ' ' + q1[0][0] + ' ' + str(my_server_id) + ' ' + str(q1[0][3]) + ' ' + str(q1[0][4])
 							s1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 							s1.connect((Server_TCP_IP, int(q1[0][2])))
 							s1.send(msg_to_send)
@@ -86,12 +78,7 @@ def q2_thread():
 				q2[i][1] -= 1
 			if(q2[0][1] <= 0):
 				s2 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-				msg_to_send = q2[0][0]
-				msg_to_send = msg_to_send + ' '
-				msg_to_send = msg_to_send + str(q2[0][2])
-				msg_to_send = msg_to_send + ' '
-				msg_to_send = msg_to_send + str(q2[0][3]) 
-				msg_to_send = msg_to_send + ' ' 								
+				msg_to_send = "cmn_server" + ' ' + q2[0][0] + ' ' + str(my_server_id) + ' ' + str(q2[0][3]) + ' ' + str(q2[0][4])
 				s2.connect((Server_TCP_IP, int(q2[0][2])))
 				s2.send(msg_to_send)
 				s2.close()
@@ -101,12 +88,8 @@ def q2_thread():
 				while True:
 					if (temp_len_q2 > 0):
 						if(q2[0][1] <= 0):
-							msg_to_send = q2[0][0]
-							msg_to_send = msg_to_send + ' '
-							msg_to_send = msg_to_send + str(q2[0][2])
-							msg_to_send = msg_to_send + ' '
-							msg_to_send = msg_to_send + str(q2[0][3]) 
-							msg_to_send = msg_to_send + ' '
+							msg_to_send = "cmn_server" + ' '
+							msg_to_send = msg_to_send + q2[0][0] + ' ' + str(my_server_id) + ' ' + str(q2[0][3]) + ' '+ str(q2[0][4])
 							s2 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 							s2.connect((Server_TCP_IP, int(q2[0][2])))
 							s2.send(msg_to_send)
@@ -128,12 +111,7 @@ def q3_thread():
 				q3[i][1] -= 1
 			if(q3[0][1] <= 0):
 				s3 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-				msg_to_send = q3[0][0]
-				msg_to_send = msg_to_send + ' '
-				msg_to_send = msg_to_send + str(q3[0][2])
-				msg_to_send = msg_to_send + ' '
-				msg_to_send = msg_to_send + str(q3[0][3]) 
-				msg_to_send = msg_to_send + ' ' 								
+				msg_to_send = "cmn_server" + ' ' + q3[0][0] + ' ' + str(my_server_id) + ' ' + str(q3[0][3]) + ' ' + str(q3[0][4])
 				s3.connect((Server_TCP_IP, int(q3[0][2])))
 				s3.send(msg_to_send)
 				s3.close()
@@ -143,12 +121,7 @@ def q3_thread():
 				while True:
 					if (temp_len_q3 > 0):
 						if(q3[0][1] <= 0):
-							msg_to_send = q3[0][0]
-							msg_to_send = msg_to_send + ' '
-							msg_to_send = msg_to_send + str(q3[0][2])
-							msg_to_send = msg_to_send + ' '
-							msg_to_send = msg_to_send + str(q3[0][3]) 
-							msg_to_send = msg_to_send + ' '
+							msg_to_send = "cmn_server" + ' ' + q3[0][0] + ' ' + str(my_server_id) + ' ' + str(q3[0][3]) + ' ' + str(q3[0][4])
 							s3 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 							s3.connect((Server_TCP_IP, int(q3[0][2])))
 							s3.send(msg_to_send)
@@ -170,12 +143,7 @@ def q4_thread():
 				q4[i][1] -= 1
 			if(q4[0][1] <= 0):
 				s4 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-				msg_to_send = q4[0][0]
-				msg_to_send = msg_to_send + ' '
-				msg_to_send = msg_to_send + str(q4[0][2])
-				msg_to_send = msg_to_send + ' '
-				msg_to_send = msg_to_send + str(q4[0][3]) 
-				msg_to_send = msg_to_send + ' ' 								
+				msg_to_send = "cmn_server" + ' ' + q4[0][0] + ' ' + str(my_server_id) + ' ' + str(q4[0][3]) + ' ' + str(q4[0][4])
 				s4.connect((Server_TCP_IP, int(q4[0][2])))
 				s4.send(msg_to_send)
 				s4.close()
@@ -185,12 +153,7 @@ def q4_thread():
 				while True:
 					if (temp_len_q4 > 0):
 						if(q4[0][1] <= 0):
-							msg_to_send = q4[0][0]
-							msg_to_send = msg_to_send + ' '
-							msg_to_send = msg_to_send + str(q4[0][2])
-							msg_to_send = msg_to_send + ' '
-							msg_to_send = msg_to_send + str(q4[0][3]) 
-							msg_to_send = msg_to_send + ' '
+							msg_to_send = "cmn_server" + ' ' + q4[0][0] + ' ' + str(my_server_id) + ' ' + str(q4[0][3]) + ' ' + str(q4[0][4])
 							s4 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 							s4.connect((Server_TCP_IP, int(q4[0][2])))
 							s4.send(msg_to_send)
@@ -203,17 +166,94 @@ def q4_thread():
 					else:
 						break			
 
+def model3_thread():
+	while True:
+		time.sleep(1)
+		temp_len_model3 = len(model3)
+		if(temp_len_model3 > 0):
+			for i in range(temp_len_model3):
+				model3[i][1] -= 1
+			if(model3[0][1] <= 0):
+				s5 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+				msg_to_send = model3[0][0]
+				print "port here is ", model3[0][2]
+				s5.connect((Server_TCP_IP, int(model3[0][2])))
+				s5.send(msg_to_send)
+				#ttt = s5.recv(50)	
+				#print ttt
+				s5.close()
+				time.sleep(0.5)
+				model3.pop(0)
+				temp_len_model3 -= 1
+				while True:
+					if (temp_len_model3 > 0):
+						if(model3[0][1] <= 0):
+							msg_to_send = model3[0][0]
+							s5 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+							s5.connect((Server_TCP_IP, int(model3[0][2])))
+							s5.send(msg_to_send)
+							#ttt = s5.recv(50)
+							#print ttt
+							s5.close()
+							time.sleep(0.5)
+							model3.pop(0)
+							temp_len_model3 -= 1
+						else:
+							break
+					else:
+						break			
+
+def model4_thread():
+	while True:
+		time.sleep(1)
+		temp_len_model4 = len(model4)
+		if(temp_len_model4 > 0):
+			for i in range(temp_len_model4):
+				model4[i][1] -= 1
+			if(model4[0][1] <= 0):
+				s6 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+				msg_to_send = model4[0][0]
+				s6.connect((Server_TCP_IP, int(model4[0][2])))
+				s6.send(msg_to_send)
+				#ttt = s6.recv(50)
+				#print ttt
+				s6.close()
+				time.sleep(0.5)
+				model4.pop(0)
+				temp_len_model4 -= 1
+				while True:
+					if (temp_len_model4 > 0):
+						if(model4[0][1] <= 0):
+							msg_to_send = model4[0][0]
+							s6 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+							s6.connect((Server_TCP_IP, int(model4[0][2])))
+							s6.send(msg_to_send)
+							#ttt = s6.recv(50)
+							#print ttt
+							s6.close()
+							time.sleep(0.5)
+							model4.pop(0)
+							temp_len_model4 -= 1
+						else:
+							break
+					else:
+						break			
+
+
 #initializing lists inside list where 1st element is the message and the 2nd element is the wait_time
 q1 = []
 q2 = []
 q3 = []
 q4 = []
-key_val = [(int), (int)]			#dictionary where key and value are both integers	 
+model3 = []
+model4 = []
+key_val = {}			#dictionary where key and value are both integers	 
 
 #defination of a thread to read a message
 def get_msg():
 	while True:
 		aString = raw_input('')
+		real_time = datetime.datetime.now().time()
 		word = aString.split()
 		word_len = len(word)
 		global firstWord
@@ -235,112 +275,196 @@ def get_msg():
 				thirdWord = word[2]
 			else:
 				print "insufficient input"
-				return
+				return	
 			if (int(thirdWord) == 5001):
-				q1.append([secondWord, wait_time, thirdWord, wait_time])
+				q1.append([secondWord, wait_time, thirdWord, wait_time, real_time])	#secondWord is msg, wait_time is the random time delay
 				print "Sent %s to %s, system time is %s" %(secondWord, thirdWord, datetime.datetime.now().time())
 			elif (int(thirdWord) == 5002):
-				q2.append([secondWord, wait_time, thirdWord, wait_time])
+				q2.append([secondWord, wait_time, thirdWord, wait_time, real_time])	
 				print "Sent %s to %s, system time is %s" %(secondWord, thirdWord, datetime.datetime.now().time())				
 			elif (int(thirdWord) == 5003):
-				q3.append([secondWord, wait_time, thirdWord, wait_time])
+				q3.append([secondWord, wait_time, thirdWord, wait_time, real_time])
 				print "Sent %s to %s, system time is %s" %(secondWord, thirdWord, datetime.datetime.now().time())				
 			elif (int(thirdWord) == 5004):
-				q4.append([secondWord, wait_time, thirdWord, wait_time])
+				q4.append([secondWord, wait_time, thirdWord, wait_time, real_time])
 				print "Sent %s to %s, system time is %s" %(secondWord, thirdWord, datetime.datetime.now().time())				
 			else:
 				print "wrong port number"
 				return
 
 		elif firstWord=="delete":
-			if (word_len == 2):
-				Key = word[1]
-					msg_to_send = str(firstWord)
-					msg_to_send = msg_to_send + ' '
-					msg_to_send = msg_to_send + str(Key)
-					s0 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-					s0.connect((Server_TCP_IP, 5000))
-					s0.send(msg_to_send)
-					s0.close()			
+			if (word_len >= 2):
+				Key = int(word[1])
+				msg_to_send = "central_server" + ' ' + str(firstWord) + ' ' + str(Key) + ' ' + str(my_server_id) + ' ' + str(real_time)
+				s0 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+				s0.connect((Server_TCP_IP, int(central_server_id)))
+				s0.send(msg_to_send)
+				s0.close()			
 			else:
 				print "insufficient input"
 				return
 				
 		elif firstWord=="get":
-			if (word_len == 3):
-				Key = word[1]
-				Model = word[2]
+			if (word_len >= 3):
+				Key = int(word[1])
+				Model = int(word[2])
 				if (Model == 1):
-					msg_to_send = str(firstWord)
-					msg_to_send = msg_to_send + ' '
-					msg_to_send = msg_to_send + str(Key)
+					msg_to_send = "central_server" + ' ' + "get" + ' ' + str(Key) + ' ' + str(my_server_id) + ' ' + str(real_time) + ' ' + str(Model)
 					s0 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-					s0.connect((Server_TCP_IP, 5000))
+					s0.connect((Server_TCP_IP, int(central_server_id)))
 					s0.send(msg_to_send)
+					t = s0.recv(4)
 					s0.close()			
 				elif (Model == 2):
-					return
-				elif (Model == 3):				
-					return
-				else (Model == 4):
-					return
-				else
+					msg_to_send = "central_server" + ' ' + "get" + ' ' + str(Key) + ' ' + str(my_server_id) + ' ' + str(real_time) + ' ' + str(Model)
+					s0 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+					s0.connect((Server_TCP_IP, int(central_server_id)))
+					s0.send(msg_to_send)
+					t = s0.recv(4)
+					s0.close()			
+				elif (Model == 3):
+					msg_to_send = "central_server" + ' ' + "get" + ' ' + str(Key) + ' ' + str(my_server_id) + ' ' + str(real_time) + ' ' + str(Model)
+					s7 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+					s7.connect((Server_TCP_IP, random.randint(5001, 5004)))
+					s7.send(msg_to_send)
+					time1 = s7.recv(50)
+					s7.close()
+					print("ack msg is ", time1)											
+					
+				elif (Model == 4):
+					msg_to_send = "central_server" + ' ' + "get" + ' ' + str(Key) + ' ' + my_server_id + ' ' + str(real_time) + ' ' + str(Model) 
+					random_server_get4a = random.randint(5001, 5004)
+					random_server_get4b = random.randint(5001, 5004)
+					if (random_server_4b == random_server_4a):
+						random_server_4b = random.randint(5001, 5004)	
+					s7 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+					s7.connect((Server_TCP_IP, random_server_get4a))
+					s7.send(msg_to_send)
+					time1 = s7.recv(50)
+					s7.close()			
+					s7 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+					s7.connect((Server_TCP_IP, random_server_get4b))
+					s7.send(msg_to_send)
+					time2 = s7.recv(50)
+					s7.close()												
+					
+					dat1 = time1.split(' ')
+					dat2 = time2.split(' ')		
+					if(dat1[1] > dat2[1]):
+						print ("msg is ", dat1[0])
+					else:
+						print("msg is ", dat2[0])											
+				#	return
+				
+				#	return
+				else:
 					print "incorrect Model no."
-					return			
+					print Model
+					#return			
 			else:
 				print "insufficient input"
 				return
 
 		elif firstWord=="insert":
-			if (word_len == 4):
-				Key = word[1]
-				Value = word[2]
-				Model = word[3]				
-				if (Model == 1):
-					msg_to_send = str(firstWord)
-					msg_to_send = msg_to_send + ' '
-					msg_to_send = msg_to_send + str(Key)
-					msg_to_send = msg_to_send + ' '
-					msg_to_send = msg_to_send + str(Value)					
+			if (word_len >= 4):
+				Key = int(word[1])
+				Value = int(word[2])
+				Model = int(word[3])
+				print "Model is ", Model				
+				if ((Model == 1) or (Model == 2)):
+					msg_to_send = "central_server" + ' ' + str(firstWord) + ' ' + str(Key) + ' ' + str(Value) + ' ' + str(my_server_id) + ' ' + str(real_time) + ' ' + str(Model)	
+					print "from send we ", msg_to_send	
 					s0 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-					s0.connect((Server_TCP_IP, 5000))
+					s0.connect((Server_TCP_IP, int(central_server_id)))
 					s0.send(msg_to_send)
 					s0.close()			
-				elif (Model == 2):
-					return
+					
 				elif (Model == 3):				
-					return
-				else (Model == 4):
-					return
-				else
-					print "incorrect Model no."
-					return							
-			else:
-				print "insufficient input"
-				return
+					msg_to_send = "central_server" + ' ' + str(firstWord) + ' ' + str(Key) + ' ' + str(Value) + ' ' + str(my_server_id) + ' ' + str(real_time) + ' ' + str(Model)
+					random_server_3ina = random.randint(5001, 5004)
+					random_server_3inb = random.randint(5001, 5004)
+					while (random_server_3inb == random_server_3ina):
+						random_server_3inb = random.randint(5001, 5004)										
+					random_server_3inc = random.randint(5001, 5004)
+					while ((random_server_3inc == random_server_3ina) or (random_server_3inc == random_server_3inb)):
+						random_server_3inc = random.randint(5001, 5004)										
+					random_server_3ind = random.randint(5001, 5004)
+					while ((random_server_3ind == random_server_3ina) or (random_server_3ind == random_server_3inb) or (random_server_3ind == random_server_3inc)):
+						random_server_3ind = random.randint(5001, 5004)								
+					#we have all in order central_sever insert key value myserverid realtime model
+					model3.append([msg_to_send, random.randint(0, int(MAX)), random_server_3ina])
+					model3.append([msg_to_send, random.randint(0, int(MAX)), random_server_3inb])
+					model3.append([msg_to_send, random.randint(0, int(MAX)), random_server_3inc])
+					model3.append([msg_to_send, random.randint(0, int(MAX)), random_server_3ind])
+					
+				elif (Model == 4):
+					msg_to_send = "central_server" + ' ' + str(firstWord) + ' ' + str(Key) + ' ' + str(Value) + ' ' + str(my_server_id)	+ ' ' + str(real_time) + ' ' + str(Model)
+					random_server_4ina = random.randint(5001, 5004)
+					random_server_4inb = random.randint(5001, 5004)
+					while (random_server_4inb == random_server_4ina):
+						random_server_4inb = random.randint(5001, 5004)										
+					random_server_4inc = random.randint(5001, 5004)
+					while ((random_server_4inc == random_server_4ina) or (random_server_4inc == random_server_4inb)):
+						random_server_4inc = random.randint(5001, 5004)										
+					random_server_4ind = random.randint(5001, 5004)
+					while ((random_server_4ind == random_server_4ina) or (random_server_4ind == random_server_4inb) or (random_server_4ind == random_server_4inc)):
+						random_server_4ind = random.randint(5001, 5004)								
+					#we have all in order central_sever insert key value myserverid realtime model
+					model4.append([msg_to_send, random.randint(0, int(MAX)), random_server_4ina])
+					model4.append([msg_to_send, random.randint(0, int(MAX)), random_server_4inb])
+					model4.append([msg_to_send, random.randint(0, int(MAX)), random_server_4inc])
+					model4.append([msg_to_send, random.randint(0, int(MAX)), random_server_4ind])
+				else:
+					print "model number not allowed"
+
 
 		elif firstWord=="update":
-			if (word_len == 4):
-				Key = word[1]
-				Value = word[2]
-				Model = word[3]				
-				if (Model == 1):
-					msg_to_send = str(firstWord)
-					msg_to_send = msg_to_send + ' '
-					msg_to_send = msg_to_send + str(Key)
-					msg_to_send = msg_to_send + ' '
-					msg_to_send = msg_to_send + str(Value)					
+			if (word_len >= 4):
+				Key = int(word[1])
+				Value = int(word[2])
+				Model = int(word[3])				
+				if ((Model == 1) or (Model == 2)):
+					msg_to_send = "central_server" + ' ' + str(firstWord) + ' ' + str(Key) + ' ' + str(Value) + ' ' + str(my_server_id)	+ ' ' + str(real_time) + ' ' + str(Model)				
 					s0 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-					s0.connect((Server_TCP_IP, 5000))
+					s0.connect((Server_TCP_IP, int(central_server_id)))
 					s0.send(msg_to_send)
 					s0.close()			
-				elif (Model == 2):
-					return
 				elif (Model == 3):				
-					return
-				else (Model == 4):
-					return
-				else
+					msg_to_send = "central_server" + ' ' + str(firstWord) + ' ' + str(Key) + ' ' + str(Value) + ' ' + str(my_server_id) + ' ' + str(real_time) + ' ' + str(Model) 
+					random_server_3upa = random.randint(5001, 5004)
+					random_server_3upb = random.randint(5001, 5004)
+					while (random_server_3upb == random_server_3upa):
+						random_server_3upb = random.randint(5001, 5004)										
+					random_server_3upc = random.randint(5001, 5004)
+					while ((random_server_3upc == random_server_3upa) or (random_server_3upc == random_server_3upb)):
+						random_server_3upc = random.randint(5001, 5004)										
+					random_server_3upd = random.randint(5001, 5004)
+					while ((random_server_3upd == random_server_3upa) or (random_server_3upd == random_server_3upb) or (random_server_3upd == random_server_3upc)):
+						random_server_3upd = random.randint(5001, 5004)								
+					#we have all in order update key value myserverid realtime model
+					model3.append([msg_to_send, random.randint(0, int(MAX)), random_server_3upa])
+					model3.append([msg_to_send, random.randint(0, int(MAX)), random_server_3upb])
+					model3.append([msg_to_send, random.randint(0, int(MAX)), random_server_3upc])
+					model3.append([msg_to_send, random.randint(0, int(MAX)), random_server_3upd])
+
+				elif (Model == 4):
+					msg_to_send = "central_server" + ' ' + str(firstWord) + ' ' + str(Key) + ' ' + str(Value) + ' ' + str(my_server_id) + ' ' + str(real_time) + ' ' + str(Model)	
+					random_server_4upa = random.randint(5001, 5004)
+					random_server_4upb = random.randint(5001, 5004)
+					while (random_server_4upb == random_server_4upa):
+						random_server_4upb = random.randint(5001, 5004)										
+					random_server_4upc = random.randint(5001, 5004)
+					while ((random_server_4upc == random_server_4upa) or (random_server_4upc == random_server_4upb)):
+						random_server_4upc = random.randint(5001, 5004)										
+					random_server_4upd = random.randint(5001, 5004)
+					while ((random_server_4upd == random_server_4upa) or (random_server_4upd == random_server_4upb) or (random_server_4upd == random_server_4upc)):
+						random_server_4upd = random.randint(5001, 5004)								
+					#we have all in order central_server update key value myserverrrrid realtime model
+					model4.append([msg_to_send, random.randint(0, int(MAX)), random_server_4upa])
+					model4.append([msg_to_send, random.randint(0, int(MAX)), random_server_4upb])
+					model4.append([msg_to_send, random.randint(0, int(MAX)), random_server_4upc])
+					model4.append([msg_to_send, random.randint(0, int(MAX)), random_server_4upd])
+				else:
 					print "incorrect Model no."
 					return							
 			else:
@@ -356,6 +480,8 @@ thread.start_new_thread(q1_thread, ())
 thread.start_new_thread(q2_thread, ())
 thread.start_new_thread(q3_thread, ())
 thread.start_new_thread(q4_thread, ())
+thread.start_new_thread(model3_thread, ())
+thread.start_new_thread(model4_thread, ())
 
 #this will do the listening part and print incoming messagaes
 while 1:
@@ -363,18 +489,79 @@ while 1:
 	data = conn.recv(int(BUFFER_SIZE))
 	if data:
 		data = data.rstrip('\n')
+		print "packet data is ", data
 		temp_recv_data = data.split(' ')
-		msg_data = temp_recv_data[0]
-		server_id = int(temp_recv_data[1])
-		delay_recv_time = int(temp_recv_data[2])
-		if (server_id == 5001):
-			print "Received %s from server 1, Max delay is %s, system time is %s" %(msg_data, delay_recv_time, datetime.datetime.now().time())
-		elif (server_id == 5002):
-			print "Received %s from server 2, Max delay is %s, system time is %s" %(msg_data, delay_recv_time, datetime.datetime.now().time())
-		elif (server_id == 5003):
-			print "Received %s from server 3, Max delay is %s, system time is %s" %(msg_data, delay_recv_time, datetime.datetime.now().time())
-		elif (server_id == 5004):
-			print "Received %s from server 4, Max delay is %s, system time is %s" %(msg_data, delay_recv_time, datetime.datetime.now().time())
+		msg_type = str(temp_recv_data[0])
+		if (msg_type == "cmn_server"):					#cmn_server secondWord my_server_id timedelay realtime
+			msg_data = str(temp_recv_data[1])
+			if (len(temp_recv_data) > 2):
+				sender_server_id = int(temp_recv_data[2])
+			if (len(temp_recv_data) > 3):
+				delay_recv_time = temp_recv_data[3]
+			if (len(temp_recv_data) > 4):	
+				time_stamp = temp_recv_data[4]
+				
+			if (server_id == 5001):
+				print "Received %s from server 1, Max delay is %s, system time is %s" %(msg_data, delay_recv_time, datetime.datetime.now().time())
+			elif (server_id == 5002):
+				print "Received %s from server 2, Max delay is %s, system time is %s" %(msg_data, delay_recv_time, datetime.datetime.now().time())
+			elif (server_id == 5003):
+				print "Received %s from server 3, Max delay is %s, system time is %s" %(msg_data, delay_recv_time, datetime.datetime.now().time())
+			elif (server_id == 5004):
+				print "Received %s from server 4, Max delay is %s, system time is %s" %(msg_data, delay_recv_time, datetime.datetime.now().time())
+			else:
+				print "which server is sending packets??"
+	
+		elif (msg_type == "central_server"):	#central_sever insert key value myserverid realtime model
+			if (len(temp_recv_data) > 1):
+				msg_command = str(temp_recv_data[1])		
+			if (len(temp_recv_data) > 2):	
+				Key = temp_recv_data[2]
+			if (len(temp_recv_data) > 3):	
+				Value = int(temp_recv_data[3])
+			if (len(temp_recv_data) > 4):	
+				sender_server_id = temp_recv_data[4]
+			if (len(temp_recv_data) > 5):	
+				time_stamp = temp_recv_data[5]
+			if (len(temp_recv_data) > 6):	
+				Model = temp_recv_data[6]
+			
+			if (msg_command == "delete"):
+				if Key in key_val.keys():
+					del key_val[Key]
+				print key_val
+				#conn.send("delete command")	
+			elif (msg_command == "get"):
+				print key_val[Key]			
+#				temp_dat = key_val[Key].split(' ')
+#				time
+				# msg time 
+				#conn.send(key_val[Key])
+				sent_server_id = temp_recv_data[3]
+				time_stamp = temp_recv_data[4]
+				Model = int(temp_recv_data[5])
+				print "msg is ", temp_recv_data				
+#				if ((model == 1) or (model == 2))
+				if (Model == 3):				
+					msg_to_send = key_val[Key]
+					#s9 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+					#s9.connect((Server_TCP_IP, int(sent_server_id)))
+					conn.send(msg_to_send)
+					#s9.close()		
+					print "read value has been sent"	
+				print "came out of left"														
+			elif (msg_command == "insert"):	
+				Value = str(Value) + ' ' + str(time_stamp)
+				key_val[Key] = Value
+				print key_val
+				#conn.send("insert command")
+			elif (msg_command == "update"):
+				Value = str(Value) + ' ' + str(time_stamp)
+				key_val[Key] = Value
+				print key_val
+				#conn.send("update command")	
+			else:
+				print "??? ???"							
 		else:
 			print "Where are these packets coming from"		
 conn.close()
