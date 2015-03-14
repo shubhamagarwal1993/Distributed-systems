@@ -524,6 +524,20 @@ def get_msg():
 		elif (firstWord=="show-all"):
 			print key_val
 
+		elif (firstWord == "search"):
+			Key = int(word[1])
+			temp_msg = "central_server" + ' ' + str(firstWord) + ' ' + str(Key) + ' ' + str(my_server_id)
+			for i in range (5001, 5005):
+				s13 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+				s13.connect((Server_TCP_IP, i))
+				s13.send(temp_msg)
+				search_msg = s13.recv(50)
+				s13.close()
+				if (search_msg == "yes"):
+					print "server %s has the Key %s" %(i, Key)
+				else:
+					print "Server %s does not have the key %s" %(i, Key)
+			
 		else:
 			print "No such command" 
 						
@@ -612,6 +626,12 @@ while 1:
 				key_val[Key] = Value
 				print key_val
 				#conn.send("update command")	
+			elif (msg_command == "search"):
+				Key = temp_recv_data[2]
+				if Key in key_val:
+					conn.send("yes")
+				else:
+					conn.send("no")				
 			else:
 				print "??? ???"							
 		else:
