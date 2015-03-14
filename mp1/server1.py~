@@ -521,6 +521,8 @@ def get_msg():
 			else:
 				print "insufficient input"
 				return
+		elif (firstWord=="show-all"):
+			print key_val
 
 		else:
 			print "No such command" 

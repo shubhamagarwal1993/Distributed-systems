@@ -386,7 +386,7 @@ def get_msg():
 					msg_to_send = "central_server" + ' ' + "get" + ' ' + str(Key) + ' ' + str(my_server_id) + ' ' + str(real_time) + ' ' + str(Model) 
 					q4_get.append([msg_to_send])
 					q4_get.append([msg_to_send])
-					
+					print "both messages have been appended for model 4"
 #					random_server_get4a = random.randint(5001, 5004)
 #					random_server_get4b = random.randint(5001, 5004)
 #					while (random_server_4b == random_server_4a):
@@ -521,6 +521,8 @@ def get_msg():
 			else:
 				print "insufficient input"
 				return
+		elif (firstWord=="show-all"):
+			print key_val
 
 		else:
 			print "No such command" 
