@@ -31,7 +31,7 @@ thirdWord = 1
 Key = 1
 Model = 0
 Value = 1
-
+#temp_msg_to_send = 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((TCP_IP, int(TCP_PORT)))
 s.listen(1)
@@ -239,6 +239,58 @@ def model4_thread():
 					else:
 						break			
 
+def get_model3_thread():
+	while True:
+		time.sleep(2)
+		if(len(q3_get) > 0):
+			time_delay = random.randint(0, int(MAX))
+			s10 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+			s10.connect((Server_TCP_IP, random.randint(5001, 5004)))
+			temp_q3_msg = str(q3_get[0][0])
+			time.sleep(time_delay)
+			s10.send(temp_q3_msg)
+			time1 = s10.recv(50)
+			s10.close()
+			print("ack in thread msg is ", time1)				
+			q3_get.pop(0)
+
+def get_model4_thread():
+	while True:
+		time.sleep(2)
+		if(len(q4_get) > 1):
+			random_server_get4a = random.randint(5001, 5004)
+			random_server_get4b = random.randint(5001, 5004)
+			while (random_server_get4b == random_server_get4a):
+				random_server_get4b = random.randint(5001, 5004)	
+			time_delay = random.randint(0, int(MAX))
+			s11 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+			s11.connect((Server_TCP_IP, random_server_get4a))
+			temp_q4_msg = str(q4_get[0][0])
+			time.sleep(time_delay)
+			s11.send(temp_q4_msg)
+			time1 = s11.recv(50)
+			s11.close()
+			q4_get.pop(0)
+
+			time_delay = random.randint(0, int(MAX))
+			s12 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+			s12.connect((Server_TCP_IP, random_server_get4b))
+			temp_q4_msg = str(q4_get[0][0])
+			time.sleep(time_delay)
+			s12.send(temp_q4_msg)
+			time2 = s12.recv(50)
+			s12.close()
+			q4_get.pop(0)
+			
+			dat1 = time1.split(' ')
+			dat2 = time2.split(' ')		
+			
+			if(dat1[1] > dat2[1]):
+				print ("msg is ", dat1[0])
+			else:
+				print("msg is ", dat2[0])											
+
+
 
 #initializing lists inside list where 1st element is the message and the 2nd element is the wait_time
 q1 = []
@@ -248,6 +300,8 @@ q4 = []
 model3 = []
 model4 = []
 key_val = {}			#dictionary where key and value are both integers	 
+q3_get = []
+q4_get = []
 
 #defination of a thread to read a message
 def get_msg():
@@ -323,44 +377,42 @@ def get_msg():
 					t = s0.recv(4)
 					s0.close()			
 				elif (Model == 3):
-					msg_to_send = "central_server" + ' ' + "get" + ' ' + str(Key) + ' ' + str(my_server_id) + ' ' + str(real_time) + ' ' + str(Model)
-					s7 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-					s7.connect((Server_TCP_IP, random.randint(5001, 5004)))
-					s7.send(msg_to_send)
-					time1 = s7.recv(50)
-					s7.close()
-					print("ack msg is ", time1)											
+					global ack_temp_msg_to_send
+					msg_to_send = "central_server" + ' ' + "get" + ' ' + str(Key) + ' ' + str(my_server_id) + ' ' + str(real_time) + ' ' + str(Model)											
+					q3_get.append([msg_to_send])
+					#thread.start_new_thread(get_model3_thread, ())
 					
 				elif (Model == 4):
-					msg_to_send = "central_server" + ' ' + "get" + ' ' + str(Key) + ' ' + my_server_id + ' ' + str(real_time) + ' ' + str(Model) 
-					random_server_get4a = random.randint(5001, 5004)
-					random_server_get4b = random.randint(5001, 5004)
-					if (random_server_4b == random_server_4a):
-						random_server_4b = random.randint(5001, 5004)	
-					s7 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-					s7.connect((Server_TCP_IP, random_server_get4a))
-					s7.send(msg_to_send)
-					time1 = s7.recv(50)
-					s7.close()			
-					s7 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-					s7.connect((Server_TCP_IP, random_server_get4b))
-					s7.send(msg_to_send)
-					time2 = s7.recv(50)
-					s7.close()												
+					msg_to_send = "central_server" + ' ' + "get" + ' ' + str(Key) + ' ' + str(my_server_id) + ' ' + str(real_time) + ' ' + str(Model) 
+					q4_get.append([msg_to_send])
+					q4_get.append([msg_to_send])
 					
-					dat1 = time1.split(' ')
-					dat2 = time2.split(' ')		
-					if(dat1[1] > dat2[1]):
-						print ("msg is ", dat1[0])
-					else:
-						print("msg is ", dat2[0])											
-				#	return
+#					random_server_get4a = random.randint(5001, 5004)
+#					random_server_get4b = random.randint(5001, 5004)
+#					while (random_server_4b == random_server_4a):
+#						random_server_4b = random.randint(5001, 5004)	
+#					s7 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+#					s7.connect((Server_TCP_IP, random_server_get4a))
+#					s7.send(msg_to_send)
+#					time1 = s7.recv(50)
+#					s7.close()			
+#					s7 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+#					s7.connect((Server_TCP_IP, random_server_get4b))
+#					s7.send(msg_to_send)
+#					time2 = s7.recv(50)
+#					s7.close()												
+#					
+#					dat1 = time1.split(' ')
+#					dat2 = time2.split(' ')		
+#					if(dat1[1] > dat2[1]):
+#						print ("msg is ", dat1[0])
+#					else:
+#						print("msg is ", dat2[0])											
 				
-				#	return
 				else:
 					print "incorrect Model no."
 					print Model
-					#return			
+				#	return			
 			else:
 				print "insufficient input"
 				return
@@ -416,7 +468,6 @@ def get_msg():
 					model4.append([msg_to_send, random.randint(0, int(MAX)), random_server_4ind])
 				else:
 					print "model number not allowed"
-
 
 		elif firstWord=="update":
 			if (word_len >= 4):
@@ -482,6 +533,8 @@ thread.start_new_thread(q3_thread, ())
 thread.start_new_thread(q4_thread, ())
 thread.start_new_thread(model3_thread, ())
 thread.start_new_thread(model4_thread, ())
+thread.start_new_thread(get_model3_thread, ())
+thread.start_new_thread(get_model4_thread, ())
 
 #this will do the listening part and print incoming messagaes
 while 1:
@@ -540,14 +593,11 @@ while 1:
 				sent_server_id = temp_recv_data[3]
 				time_stamp = temp_recv_data[4]
 				Model = int(temp_recv_data[5])
-				print "msg is ", temp_recv_data				
+				print "msg is ", temp_recv_data
 #				if ((model == 1) or (model == 2))
-				if (Model == 3):				
-					msg_to_send = key_val[Key]
-					#s9 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-					#s9.connect((Server_TCP_IP, int(sent_server_id)))
-					conn.send(msg_to_send)
-					#s9.close()		
+				if ((Model == 3) or (Model == 4)):				
+					model34_msg_to_send = key_val[Key]
+					conn.send(model34_msg_to_send)
 					print "read value has been sent"	
 				print "came out of left"														
 			elif (msg_command == "insert"):	
