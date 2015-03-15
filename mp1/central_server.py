@@ -110,9 +110,9 @@ def q_thread():
 			while (ack != 4):
 #				print ack
 				pass
-			print q
+#			print q
 			q.pop()	
-			print "after pop", q
+#			print "after pop", q
 			
 thread.start_new_thread(q_thread, ())
 
@@ -128,7 +128,7 @@ while 1:
 		data = data.rstrip('\n')
 		print "data recv is ", data
 		temp_recv_data = data.split(' ')
-		print "split data is ", temp_recv_data
+#		print "split data is ", temp_recv_data
 		command = temp_recv_data[1]
 #		if(len(temp_recv_data) > 2):
 		Key = int(temp_recv_data[2])
@@ -159,7 +159,7 @@ while 1:
 			time_stamp = temp_recv_data[5]
 			model = int(temp_recv_data[6])
 			msg_to_send = "central_server" + ' ' + "insert" + ' ' + str(Key) + ' ' + str(Value) + ' ' + str(sent_server_id) + ' ' + str(time_stamp) + ' ' + str(model)
-			print "msg_to_semd", msg_to_send
+			print "msg_to_send", msg_to_send
 			q.append([msg_to_send, sent_server_id])
 									
 		elif (command == "update"):
