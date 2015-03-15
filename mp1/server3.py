@@ -386,7 +386,7 @@ def get_msg():
 					msg_to_send = "central_server" + ' ' + "get" + ' ' + str(Key) + ' ' + str(my_server_id) + ' ' + str(real_time) + ' ' + str(Model) 
 					q4_get.append([msg_to_send])
 					q4_get.append([msg_to_send])
-					print "both messages have been appended for model 4"
+#					print "both messages have been appended for model 4"
 #					random_server_get4a = random.randint(5001, 5004)
 #					random_server_get4b = random.randint(5001, 5004)
 #					while (random_server_4b == random_server_4a):
@@ -422,10 +422,10 @@ def get_msg():
 				Key = int(word[1])
 				Value = int(word[2])
 				Model = int(word[3])
-				print "Model is ", Model				
+#				print "Model is ", Model				
 				if ((Model == 1) or (Model == 2)):
 					msg_to_send = "central_server" + ' ' + str(firstWord) + ' ' + str(Key) + ' ' + str(Value) + ' ' + str(my_server_id) + ' ' + str(real_time) + ' ' + str(Model)	
-					print "from send we ", msg_to_send	
+#					print "from send we ", msg_to_send	
 					s0 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 					s0.connect((Server_TCP_IP, int(central_server_id)))
 					s0.send(msg_to_send)
@@ -570,13 +570,13 @@ while 1:
 			if (len(temp_recv_data) > 4):	
 				time_stamp = temp_recv_data[4]
 				
-			if (server_id == 5001):
+			if (sender_server_id == 5001):
 				print "Received %s from server 1, Max delay is %s, system time is %s" %(msg_data, delay_recv_time, datetime.datetime.now().time())
-			elif (server_id == 5002):
+			elif (sender_server_id == 5002):
 				print "Received %s from server 2, Max delay is %s, system time is %s" %(msg_data, delay_recv_time, datetime.datetime.now().time())
-			elif (server_id == 5003):
+			elif (sender_server_id == 5003):
 				print "Received %s from server 3, Max delay is %s, system time is %s" %(msg_data, delay_recv_time, datetime.datetime.now().time())
-			elif (server_id == 5004):
+			elif (sender_server_id == 5004):
 				print "Received %s from server 4, Max delay is %s, system time is %s" %(msg_data, delay_recv_time, datetime.datetime.now().time())
 			else:
 				print "which server is sending packets??"

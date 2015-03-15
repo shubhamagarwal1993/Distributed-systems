@@ -570,13 +570,13 @@ while 1:
 			if (len(temp_recv_data) > 4):	
 				time_stamp = temp_recv_data[4]
 				
-			if (server_id == 5001):
+			if (sender_server_id == 5001):
 				print "Received %s from server 1, Max delay is %s, system time is %s" %(msg_data, delay_recv_time, datetime.datetime.now().time())
-			elif (server_id == 5002):
+			elif (sender_server_id == 5002):
 				print "Received %s from server 2, Max delay is %s, system time is %s" %(msg_data, delay_recv_time, datetime.datetime.now().time())
-			elif (server_id == 5003):
+			elif (sender_server_id == 5003):
 				print "Received %s from server 3, Max delay is %s, system time is %s" %(msg_data, delay_recv_time, datetime.datetime.now().time())
-			elif (server_id == 5004):
+			elif (sender_server_id == 5004):
 				print "Received %s from server 4, Max delay is %s, system time is %s" %(msg_data, delay_recv_time, datetime.datetime.now().time())
 			else:
 				print "which server is sending packets??"
