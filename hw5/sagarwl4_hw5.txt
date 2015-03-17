@@ -4,12 +4,11 @@ netid : sagarwl4
 CS 425/ECE 428 Distributed Systems (Spring 2015)
 Homework 5 - Answer Sheet
 
-  1.(a)	YES
-	A dead-lock is possibile.
+  1.(a)	NO
 	There can be a single point of failure as it is dependant on a single coordinator. 
-	If this happens, then a process will not know whether it is a denial of permissin or a dead coordinator.
+		If this happens, then a process will not know whether it is a denial of permissin or a dead coordinator.
 		
-	(b) YES
+	(b) NO
 	We cannot differentiate between a crashed process and a lost token. Thus, proceses may never get token to get 
 	into a critical section. 
 
@@ -21,6 +20,6 @@ Homework 5 - Answer Sheet
 		
   2.	Please refer to pdf for the diagram.
   		  
-  3.	YES
+  3.	NO
   
-  4. 	NO
+  4. 	YES
