@@ -5,21 +5,19 @@ CS 425/ECE 428 Distributed Systems (Spring 2015)
 Homework 5 - Answer Sheet
 
   1.(a)	NO
-	There can be a single point of failure as it is dependant on a single coordinator. 
-		If this happens, then a process will not know whether it is a denial of permissin or a dead coordinator.
+		It is dead lock free.
 		
 	(b) NO
-	We cannot differentiate between a crashed process and a lost token. Thus, proceses may never get token to get 
-	into a critical section. 
+		It is dead lock free. 
 
 	(c) NO
-	In order to critical section, we don't need to wait for someone to release a message.
+		It is dead lock free
 
 	(d) YES
-	As against the above one, we do need a message to tell us that the message has been released.
+		Because we need a release message here. Thus, we can have a edad lock.
 		
   2.	Please refer to pdf for the diagram.
   		  
-  3.	NO
-  
-  4. 	YES
+  3.	YES
+
+  4. 	NO
