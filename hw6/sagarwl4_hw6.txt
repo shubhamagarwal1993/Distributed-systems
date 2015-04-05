@@ -11,10 +11,10 @@ Homework 6 - Answer Sheet
 		provoke".
 
   2.(a)
-  	(b) 
+  	(b)
   		  
   3.	YES
-  		The paper here (http://www.cs.indiana.edu/ftp/techreports/TR481.pdf ) says that we can implement the bully algorithm for an asynchronous system.
+  	The paper here (http://www.cs.indiana.edu/ftp/techreports/TR481.pdf ) says that we can implement the bully algorithm for an asynchronous system.
 
   4.(a) NO     ->The reason is in the pdf file
   	(b) YES	   ->The reason is in the pdf file
