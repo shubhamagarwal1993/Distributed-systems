@@ -17,7 +17,7 @@ Homework 6 - Answer Sheet
   	The paper here (http://www.cs.indiana.edu/ftp/techreports/TR481.pdf ) says that we can implement the bully algorithm for an asynchronous system.
 
   4.(a) NO     ->The reason is in the pdf file
-  	(b) YES	   ->The reason is in the pdf file
+  (b) YES	 ->The reason is in the pdf file
 
   5.(a) YES    ->The reason is in the pdf file
-  	(b)	YES    ->The reason is in the pdf file
+  (b)	YES    ->The reason is in the pdf file
