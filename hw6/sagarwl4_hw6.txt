@@ -4,8 +4,8 @@ netid : sagarwl4
 CS 425/ECE 428 Distributed Systems (Spring 2015)
 Homework 6 - Answer Sheet
 
-  1.	YES
-	http://en.wikipedia.org/wiki/Paxos_%28computer_science%29
+  1.	NO
+	referred here: (http://en.wikipedia.org/wiki/Paxos_%28computer_science%29)
 	It states that "no deterministic fault-tolerant consensus protocol can guarantee progress in an asynchronous network (a result proved in a paper by 
 	Fischer, Lynch and Paterson), Paxos guarantees safety (consistency), and the conditions that could prevent it from making progress are difficult to 
 	provoke".
