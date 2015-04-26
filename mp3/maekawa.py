@@ -117,21 +117,19 @@ def process_1_listen():
 					if ((process_1_state == 'HELD') or (process_1_voted == 'TRUE')):
 						process_1_queue.append(int(words[2]))
 					else:
-						s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)		
-						s.connect(('', int(words[2])))
-						s.send('pong 1 8001')
-						s.close()
+						Thread(target = send_thread_at_will, args=('pong 1 8001', int(words[2]))).start()
 						process_1_voted = 'TRUE'
 				elif (words[0] == 'release'):
 					if not process_1_queue:
 						process_1_voted = 'FALSE'
 					else:
-						s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)		
-						s.connect(('', int(words[2])))
-						s.send('token 1 8001')
-						s.close()
+						Thread(target = send_thread_at_will, args=('token 1 8001', int(words[2]))).start()
 						process_1_votes = 'TRUE'
 						process_1_queue.pop()	
+				elif (words[0] == 'pong'):
+					pass
+				elif (words[0] == 'token'):
+					pass		
 				else:
 					print "dont send me crap in 1"
 					pass
@@ -145,7 +143,6 @@ def process_2_listen():
 	s.bind((TCP_IP, int(TCP_PORT_PROCESS2)))
 	s.listen(1)
 	while True:
-		print "seems to connect now"
 		conn, addr = s.accept()
 		data = conn.recv(1024)		
 		if data:
@@ -157,21 +154,18 @@ def process_2_listen():
 						process_2_queue.append(int(words[2]))
 					else:
 						Thread(target = send_thread_at_will, args=('pong 2 8002', int(words[2]))).start()
-						#s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)		
-						#s.connect(('', int(words[2])))
-						#s.sendto('pong 2 8002', (TCP_IP, int(words[2])))
-						#s.close()
 						process_2_voted = 'TRUE'
 				elif (words[0] == 'release'):
 					if not process_2_queue:
 						process_2_voted = 'FALSE'
 					else:
-						s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)		
-						s.connect(('', int(words[2])))
-						s.send('token 2 8002')
-						s.close()
+						Thread(target = send_thread_at_will, args=('token 2 8002', int(words[2]))).start()
 						process_2_votes = 'TRUE'
 						process_2_queue.pop()	
+				elif (words[0] == 'pong'):
+					pass
+				elif (words[0] == 'token'):
+					pass		
 				else:
 					print "dont send me crap"
 					pass
@@ -195,10 +189,7 @@ def process_3_listen():
 					if ((process_3_state == 'HELD') or (process_3_voted == 'TRUE')):
 						process_3_queue.append(int(words[2]))
 					else:
-						s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)		
-						s.connect(('', int(words[2])))
-						s.send('pong 3 8003')
-						s.close()
+						Thread(target = send_thread_at_will, args=('pong 3 8003', int(words[2]))).start()
 						process_3_voted = 'TRUE'
 				elif (words[0] == 'release'):
 					if not process_3_queue:
@@ -233,10 +224,7 @@ def process_4_listen():
 					if ((process_4_state == 'HELD') or (process_4_voted == 'TRUE')):
 						process_4_queue.append(int(words[2]))
 					else:
-						s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)		
-						s.connect(('', int(words[2])))
-						s.send('pong 4 8004')
-						s.close()
+						Thread(target = send_thread_at_will, args=('pong 4 8004', int(words[2]))).start()
 						process_4_voted = 'TRUE'
 				elif (words[0] == 'release'):
 					if not process_4_queue:
@@ -271,10 +259,7 @@ def process_5_listen():
 					if ((process_5_state == 'HELD') or (process_5_voted == 'TRUE')):
 						process_5_queue.append(int(words[2]))
 					else:
-						s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)		
-						s.connect(('', int(words[2])))
-						s.send('pong 5 8005')
-						s.close()
+						Thread(target = send_thread_at_will, args=('pong 5 8005', int(words[2]))).start()
 						process_5_voted = 'TRUE'
 				elif (words[0] == 'release'):
 					if not process_5_queue:
@@ -309,10 +294,7 @@ def process_6_listen():
 					if ((process_6_state == 'HELD') or (process_6_voted == 'TRUE')):
 						process_6_queue.append(int(words[2]))
 					else:
-						s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)		
-						s.connect(('', int(words[2])))
-						s.send('pong 6 8006')
-						s.close()
+						Thread(target = send_thread_at_will, args=('pong 6 8006', int(words[2]))).start()
 						process_6_voted = 'TRUE'
 				elif (words[0] == 'release'):
 					if not process_6_queue:
@@ -347,10 +329,7 @@ def process_7_listen():
 					if ((process_7_state == 'HELD') or (process_7_voted == 'TRUE')):
 						process_7_queue.append(int(words[2]))
 					else:
-						s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)		
-						s.connect(('', int(words[2])))
-						s.send('pong 7 8007')
-						s.close()
+						Thread(target = send_thread_at_will, args=('pong 7 8007', int(words[2]))).start()
 						process_7_voted = 'TRUE'
 				elif (words[0] == 'release'):
 					if not process_7_queue:
@@ -385,10 +364,7 @@ def process_8_listen():
 					if ((process_8_state == 'HELD') or (process_8_voted == 'TRUE')):
 						process_8_queue.append(int(words[2]))
 					else:
-						s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)		
-						s.connect(('', int(words[2])))
-						s.send('pong 8 8008')
-						s.close()
+						Thread(target = send_thread_at_will, args=('pong 8 8008', int(words[2]))).start()
 						process_8_voted = 'TRUE'
 				elif (words[0] == 'release'):
 					if not process_8_queue:
@@ -423,10 +399,7 @@ def process_9_listen():
 					if ((process_9_state == 'HELD') or (process_9_voted == 'TRUE')):
 						process_9_queue.append(int(words[2]))
 					else:
-						s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)		
-						s.connect(('', int(words[2])))
-						s.send('pong 9 8009')
-						s.close()
+						Thread(target = send_thread_at_will, args=('pong 9 8009', int(words[2]))).start()
 						process_9_voted = 'TRUE'
 				elif (words[0] == 'release'):
 					if not process_9_queue:
