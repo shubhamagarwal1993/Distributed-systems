@@ -195,12 +195,13 @@ def process_3_listen():
 					if not process_3_queue:
 						process_3_voted = 'FALSE'
 					else:
-						s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)		
-						s.connect(('', int(words[2])))
-						s.send('token 3 8003')
-						s.close()
+						Thread(target = send_thread_at_will, args=('token 3 8003', int(words[2]))).start()
 						process_3_votes = 'TRUE'
-						process_3_queue.pop()	
+						process_3_queue.pop()
+				elif (words[0] == 'pong'):
+					pass
+				elif (words[0] == 'token'):
+					pass	
 				else:
 					print "dont send me crap"
 					pass
@@ -230,15 +231,16 @@ def process_4_listen():
 					if not process_4_queue:
 						process_4_voted = 'FALSE'
 					else:
-						s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)		
-						s.connect(('', int(words[2])))
-						s.send('token 4 8004')
-						s.close()
+						Thread(target = send_thread_at_will, args=('token 4 8004', int(words[2]))).start()
 						process_4_votes = 'TRUE'
 						process_4_queue.pop()	
+				elif (words[0] == 'pong'):
+					pass
+				elif (words[0] == 'token'):
+					pass
 				else:
 					print "dont send me crap"
-					pass
+					pass	
 			else:
 				pass		
 	conn.close()
@@ -265,12 +267,13 @@ def process_5_listen():
 					if not process_5_queue:
 						process_5_voted = 'FALSE'
 					else:
-						s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)		
-						s.connect(('', int(words[2])))
-						s.send('token 5 8005')
-						s.close()
+						Thread(target = send_thread_at_will, args=('token 5 8005', int(words[2]))).start()
 						process_5_votes = 'TRUE'
 						process_5_queue.pop()	
+				elif (words[0] == 'pong'):
+					pass
+				elif (words[0] == 'token'):
+					pass
 				else:
 					print "dont send me crap"
 					pass
@@ -300,12 +303,13 @@ def process_6_listen():
 					if not process_6_queue:
 						process_6_voted = 'FALSE'
 					else:
-						s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)		
-						s.connect(('', int(words[2])))
-						s.send('token 6 8006')
-						s.close()
+						Thread(target = send_thread_at_will, args=('token 6 8006', int(words[2]))).start()
 						process_6_votes = 'TRUE'
 						process_6_queue.pop()	
+				elif (words[0] == 'pong'):
+					pass
+				elif (words[0] == 'token'):
+					pass
 				else:
 					print "dont send me crap"
 					pass
@@ -335,12 +339,13 @@ def process_7_listen():
 					if not process_7_queue:
 						process_7_voted = 'FALSE'
 					else:
-						s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)		
-						s.connect(('', int(words[2])))
-						s.send('token 7 8007')
-						s.close()
+						Thread(target = send_thread_at_will, args=('token 7 8007', int(words[2]))).start()
 						process_7_votes = 'TRUE'
 						process_7_queue.pop()	
+				elif (words[0] == 'pong'):
+					pass
+				elif (words[0] == 'token'):
+					pass
 				else:
 					print "dont send me crap"
 					pass
@@ -370,12 +375,13 @@ def process_8_listen():
 					if not process_8_queue:
 						process_8_voted = 'FALSE'
 					else:
-						s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)		
-						s.connect(('', int(words[2])))
-						s.send('token 8 8008')
-						s.close()
+						Thread(target = send_thread_at_will, args=('token 8 8008', int(words[2]))).start()
 						process_8_votes = 'TRUE'
 						process_8_queue.pop()	
+				elif (words[0] == 'pong'):
+					pass
+				elif (words[0] == 'token'):
+					pass
 				else:
 					print "dont send me crap"
 					pass
@@ -405,12 +411,13 @@ def process_9_listen():
 					if not process_9_queue:
 						process_9_voted = 'FALSE'
 					else:
-						s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)		
-						s.connect(('', int(words[2])))
-						s.send('token 9 8009')
-						s.close()
+						Thread(target = send_thread_at_will, args=('token 1 8001', int(words[2]))).start()
 						process_9_votes = 'TRUE'
 						process_9_queue.pop()	
+				elif (words[0] == 'pong'):
+					pass
+				elif (words[0] == 'token'):
+					pass
 				else:
 					print "dont send me crap"
 					pass
