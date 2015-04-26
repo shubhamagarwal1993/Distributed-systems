@@ -34,7 +34,8 @@ process_6_queue = []
 process_7_queue = []
 process_8_queue = []
 process_9_queue = []
-
+process_1_counter = 0
+#-----------------------------------------------------------------------------------
 def code_exit():
 	global tot_exec_time
 	time.sleep(int(tot_exec_time))
@@ -42,7 +43,7 @@ def code_exit():
 	os._exit(0)
 	print "hahahahaha"
 #thread.start_new_thread(code_exit, ())
-
+#-----------------------------------------------------------------------------------
 TCP_IP = '127.0.0.1'
 TCP_PORT_MAIN = '8000'
 TCP_PORT_PROCESS1 = '8001'
@@ -59,12 +60,29 @@ s.bind((TCP_IP, int(TCP_PORT_MAIN)))
 s.listen(1)
 #----------------------------------------------------------------------------------------------------
 def send_thread_at_will(msg, dest):
-	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)		
-	s.connect(('', int(dest)))
-	s.send(msg)
-	s.close()
-	
-
+	while True:
+		try:
+			s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)		
+			s.connect(('', int(dest)))
+			s.send(msg)
+			s.close()
+			break
+		except error,msg:
+			pass
+			
+def process_1_send_thread_at_will(msg, dest):
+	global process_1_counter
+	while True:
+		try:
+			s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)		
+			s.connect(('', int(dest)))
+			s.send(msg)
+			s.close()
+			process_1_counter += 1
+			break
+		except error,msg:
+			pass		
+		
 class processes:
 	def __init__(self):
 		pass
@@ -426,7 +444,10 @@ def process_9_listen():
 	conn.close()
 #--------------------------------------------------------------
 def process_1():
-	global cs_int, next_req, tot_exec_time, process_1_state, process_1_voted
+	global cs_int, next_req, tot_exec_time, process_1_state, process_1_voted, process_1_counter
+	
+#	process_1_counter += 1
+	
 	while True:
 		#init
 		process_1_state = 'RELEASED'
@@ -434,29 +455,20 @@ def process_1():
 		#request
 		time.sleep(int(next_req))
 		process_1_state = 'WANTED'
-		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		s.connect(('', 8001))
-		s.send('ping 1 8001')
-		s.close()
-		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		s.connect(('', 8002))
-		s.send('ping 1 8001')
-		s.close()
 
-		time.sleep(20)
 
-		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		s.connect(('', 8003))
-		s.send('ping 1 8001')
-		s.close()
-		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		s.connect(('', 8004))
-		s.send('ping 1 8001')
-		s.close()
-		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		s.connect(('', 8007))
-		s.send('ping 1 8001')
-		s.close()
+		Thread(target = process_1_send, args=('ping 1 8001', 8001)).start()
+		Thread(target = process_1_send, args=('ping 1 8001', 8002)).start()
+		
+		time.sleep(200)
+		
+			
+		Thread(target = process_1_send, args=('ping 1 8001', 8003)).start()
+		Thread(target = process_1_send, args=('ping 1 8001', 8004)).start()
+		Thread(target = process_1_send, args=('ping 1 8001', 8007)).start()	
+
+
+
 		#held
 		process_1_state = 'HELD'		
 		time.sleep(int(cs_int))
