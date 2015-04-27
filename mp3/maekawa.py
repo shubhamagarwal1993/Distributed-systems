@@ -1,7 +1,7 @@
 #@created 24th April, 2015 SA
 #
 #!/usr/bin/env python
-import socket, sys, thread, threading, time, readline, io, random, re, os, subprocess
+import socket, sys, thread, threading, time, readline, io, random, re, os, subprocess, datetime
 #from nodes import process_1, process_2, process_3, process_4, process_5, process_6, process_7, process_8, process_9 
 from threading import Thread
 cs_int = 5
@@ -78,18 +78,34 @@ def send_thread_at_will(msg, dest):
 		except error,msg:
 			pass
 			
-def process_1_send_thread_at_will(msg, dest):
-	global process_1_counter
+def deadlock_detection_thread():
+	global process_1_state, process_2_state, process_3_state, process_4_state, process_5_state, process_6_state, process_7_state, process_8_state, process_9_state
+	local_counter = 0
 	while True:
-		try:
-			s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)		
-			s.connect(('', int(dest)))
-			s.send(msg)
-			s.close()
-			process_1_counter += 1
-			break
-		except error,msg:
-			pass		
+		time.sleep(1)
+		if (process_1_state == 'HELD'):
+			local_counter += 1
+		if (process_2_state == 'HELD'):
+			local_counter += 1
+		if (process_3_state == 'HELD'):
+			local_counter += 1
+		if (process_4_state == 'HELD'):
+			local_counter += 1
+		if (process_5_state == 'HELD'):
+			local_counter += 1
+		if (process_6_state == 'HELD'):
+			local_counter += 1
+		if (process_7_state == 'HELD'):
+			local_counter += 1
+		if (process_8_state == 'HELD'):
+			local_counter += 1
+		if (process_9_state == 'HELD'):
+			local_counter += 1
+		if (local_counter >= 9):
+			print "there is a deadlock"
+		else:
+			local_counter = 0
+			pass
 		
 class processes:
 	def __init__(self):
@@ -463,6 +479,7 @@ def process_9_listen():
 def process_1():
 	global cs_int, next_req, tot_exec_time, process_1_state, process_1_voted, process_1_counter
 	while True:
+		print "entering 1"
 		#init
 		process_1_state = 'RELEASED'
 		process_1_voted = 'FALSE'
@@ -482,9 +499,11 @@ def process_1():
 				break
 			else:
 				time.sleep(0.5)
+				print "got it"
 				pass
 		#held
 		process_1_state = 'HELD'
+		print "Process1CS -> Time:%s, Thread_identifier:node1, node-list: 1 2 3 4 7",  datetime.datetime.now()
 		time.sleep(int(cs_int))
 		#exit
 		process_1_state = 'RELEASED'
@@ -494,7 +513,7 @@ def process_1():
 		Thread(target = send_thread_at_will, args=('release 1 8001', 8003)).start()
 		Thread(target = send_thread_at_will, args=('release 1 8001', 8004)).start()
 		Thread(target = send_thread_at_will, args=('release 1 8001', 8007)).start()
-
+		print "leaving 1"
 def process_2():
 	global cs_int, next_req, tot_exec_time, process_2_state, process_2_voted, process_2_counter
 	while True:
@@ -520,6 +539,7 @@ def process_2():
 				pass
 		#held
 		process_2_state = 'HELD'
+		print "Process2CS -> Time:%s, Thread_identifier:node2, node-list: 1 2 3 5 8",  datetime.datetime.now()
 		time.sleep(int(cs_int))
 		#exit
 		process_2_state = 'RELEASED'
@@ -555,6 +575,7 @@ def process_3():
 				pass
 		#held
 		process_3_state = 'HELD'
+		print "Process3CS -> Time:%s, Thread_identifier:node3, node-list: 1 2 3 6 9",  datetime.datetime.now()
 		time.sleep(int(cs_int))
 		#exit
 		process_3_state = 'RELEASED'
@@ -590,6 +611,7 @@ def process_4():
 				pass
 		#held
 		process_4_state = 'HELD'
+		print "Process1CS -> Time:%s, Thread_identifier:node4, node-list: 1 4 5 6 7",  datetime.datetime.now()
 		time.sleep(int(cs_int))
 		#exit
 		process_4_state = 'RELEASED'
@@ -625,6 +647,7 @@ def process_5():
 				pass
 		#held
 		process_5_state = 'HELD'
+		print "Process5CS -> Time:%s, Thread_identifier:node5, node-list: 2 4 5 6 8",  datetime.datetime.now()
 		time.sleep(int(cs_int))
 		#exit
 		process_5_state = 'RELEASED'
@@ -660,6 +683,7 @@ def process_6():
 				pass
 		#held
 		process_6_state = 'HELD'
+		print "Process6CS -> Time:%s, Thread_identifier:node6, node-list: 3 4 5 6 9",  datetime.datetime.now()
 		time.sleep(int(cs_int))
 		#exit
 		process_6_state = 'RELEASED'
@@ -695,6 +719,7 @@ def process_7():
 				pass
 		#held
 		process_7_state = 'HELD'
+		print "Process7CS -> Time:%s, Thread_identifier:node7, node-list: 1 4 7 8 9",  datetime.datetime.now()
 		time.sleep(int(cs_int))
 		#exit
 		process_7_state = 'RELEASED'
@@ -730,6 +755,7 @@ def process_8():
 				pass
 		#held
 		process_8_state = 'HELD'
+		print "Process8CS -> Time:%s, Thread_identifier:node8, node-list: 2 5 7 8 9",  datetime.datetime.now()
 		time.sleep(int(cs_int))
 		#exit
 		process_8_state = 'RELEASED'
@@ -765,6 +791,7 @@ def process_9():
 				pass
 		#held
 		process_9_state = 'HELD'
+		print "Process9CS -> Time:%s, Thread_identifier:node9, node-list: 3 6 7 8 9",  datetime.datetime.now()
 		time.sleep(int(cs_int))
 		#exit
 		process_9_state = 'RELEASED'
@@ -797,6 +824,7 @@ thread.start_new_thread(process_6_listen, ())
 thread.start_new_thread(process_7_listen, ())
 thread.start_new_thread(process_8_listen, ())
 thread.start_new_thread(process_9_listen, ())
+thread.start_new_thread(deadlock_detection_thread, ())
 while 1:
 	try:
 		instruction = raw_input("")
