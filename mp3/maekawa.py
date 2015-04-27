@@ -82,7 +82,7 @@ def deadlock_detection_thread():
 	global process_1_state, process_2_state, process_3_state, process_4_state, process_5_state, process_6_state, process_7_state, process_8_state, process_9_state
 	local_counter = 0
 	while True:
-		time.sleep(1)
+		local_counter = 0	
 		if (process_1_state == 'HELD'):
 			local_counter += 1
 		if (process_2_state == 'HELD'):
@@ -101,11 +101,8 @@ def deadlock_detection_thread():
 			local_counter += 1
 		if (process_9_state == 'HELD'):
 			local_counter += 1
-		if (local_counter >= 9):
+		if (local_counter >= 2):
 			print "there is a deadlock"
-		else:
-			local_counter = 0
-			pass
 		
 class processes:
 	def __init__(self):
@@ -154,30 +151,29 @@ def process_1_listen():
 		if data:
 			data = data.rstrip('\n')	
 			words = data.split(' ')
-			if (int(words[2]) != 8001):
-				if (words[0] == 'ping'):
-					if ((process_1_state == 'HELD') or (process_1_voted == 'TRUE')):
-						process_1_queue.append(int(words[2]))
-					else:
-						Thread(target = send_thread_at_will, args=('pong 1 8001', int(words[2]))).start()
-						process_1_voted = 'TRUE'
-				elif (words[0] == 'release'):
-					if not process_1_queue:
-						process_1_voted = 'FALSE'
-					else:
-						Thread(target = send_thread_at_will, args=('token 1 8001', int(words[2]))).start()
-						process_1_voted = 'TRUE'
-						process_1_queue.pop()	
-				elif (words[0] == 'pong'):
-					process_1_counter += 1
-					pass
-				elif (words[0] == 'token'):
-					pass		
+#			if (int(words[2]) != 8001):
+			if (words[0] == 'ping'):
+				if ((process_1_state == 'HELD') or (process_1_voted == 'TRUE')):
+					process_1_queue.append(int(words[2]))
 				else:
-					print "dont send me crap in 1"
-					pass
+					Thread(target = send_thread_at_will, args=('pong 1 8001', int(words[2]))).start()
+					process_1_voted = 'TRUE'
+			elif (words[0] == 'release'):
+				if not process_1_queue:
+					process_1_voted = 'FALSE'
+				else:
+					Thread(target = send_thread_at_will, args=('token 1 8001', int(words[2]))).start()
+					process_1_voted = 'TRUE'
+					process_1_queue.pop()
+			elif (words[0] == 'pong'):
+				process_1_counter = process_1_counter + 1
+			elif (words[0] == 'token'):
+				process_1_counter = process_1_counter + 1
 			else:
-				pass		
+				print "dont send me crap in 1"
+				pass
+#			else:
+#				pass		
 	conn.close()
 
 def process_2_listen():
@@ -189,32 +185,32 @@ def process_2_listen():
 		conn, addr = s.accept()
 		data = conn.recv(1024)		
 		if data:
+			print "2data = ", data
 			data = data.rstrip('\n')	
 			words = data.split(' ')
-			if (int(words[2]) != 8002):
-				if (words[0] == 'ping'):
-					if ((process_2_state == 'HELD') or (process_2_voted == 'TRUE')):
-						process_2_queue.append(int(words[2]))
-					else:
-						Thread(target = send_thread_at_will, args=('pong 2 8002', int(words[2]))).start()
-						process_2_voted = 'TRUE'
-				elif (words[0] == 'release'):
-					if not process_2_queue:
-						process_2_voted = 'FALSE'
-					else:
-						Thread(target = send_thread_at_will, args=('token 2 8002', int(words[2]))).start()
-						process_2_voted = 'TRUE'
-						process_2_queue.pop()	
-				elif (words[0] == 'pong'):
-					process_2_counter += 1
-					pass
-				elif (words[0] == 'token'):
-					pass		
+#			if (int(words[2]) != 8002):
+			if (words[0] == 'ping'):
+				if ((process_2_state == 'HELD') or (process_2_voted == 'TRUE')):
+					process_2_queue.append(int(words[2]))
 				else:
-					print "dont send me crap"
-					pass
+					Thread(target = send_thread_at_will, args=('pong 2 8002', int(words[2]))).start()
+					process_2_voted = 'TRUE'
+			elif (words[0] == 'release'):
+				if not process_2_queue:
+					process_2_voted = 'FALSE'
+				else:
+					Thread(target = send_thread_at_will, args=('token 2 8002', int(words[2]))).start()
+					process_2_voted = 'TRUE'
+					process_2_queue.pop()	
+			elif (words[0] == 'pong'):
+				process_2_counter = process_2_counter + 1
+			elif (words[0] == 'token'):
+				process_2_counter = process_2_counter + 1
 			else:
-				pass		
+				print "dont send me crap"
+				pass
+#			else:
+#				pass		
 	conn.close()
 
 def process_3_listen():
@@ -226,32 +222,32 @@ def process_3_listen():
 		conn, addr = s.accept()
 		data = conn.recv(1024)
 		if data:
+			print "3data = ", data		
 			data = data.rstrip('\n')	
 			words = data.split(' ')
-			if (int(words[2]) != 8003):
-				if (words[0] == 'ping'):
-					if ((process_3_state == 'HELD') or (process_3_voted == 'TRUE')):
-						process_3_queue.append(int(words[2]))
-					else:
-						Thread(target = send_thread_at_will, args=('pong 3 8003', int(words[2]))).start()
-						process_3_voted = 'TRUE'
-				elif (words[0] == 'release'):
-					if not process_3_queue:
-						process_3_voted = 'FALSE'
-					else:
-						Thread(target = send_thread_at_will, args=('token 3 8003', int(words[2]))).start()
-						process_3_voted = 'TRUE'
-						process_3_queue.pop()
-				elif (words[0] == 'pong'):
-					process_3_counter += 1
-					pass
-				elif (words[0] == 'token'):
-					pass	
+#			if (int(words[2]) != 8003):
+			if (words[0] == 'ping'):
+				if ((process_3_state == 'HELD') or (process_3_voted == 'TRUE')):
+					process_3_queue.append(int(words[2]))
 				else:
-					print "dont send me crap"
-					pass
+					Thread(target = send_thread_at_will, args=('pong 3 8003', int(words[2]))).start()
+					process_3_voted = 'TRUE'
+			elif (words[0] == 'release'):
+				if not process_3_queue:
+					process_3_voted = 'FALSE'
+				else:
+					Thread(target = send_thread_at_will, args=('token 3 8003', int(words[2]))).start()
+					process_3_voted = 'TRUE'
+					process_3_queue.pop()
+			elif (words[0] == 'pong'):
+				process_3_counter = process_3_counter + 1
+			elif (words[0] == 'token'):
+				process_3_counter = process_3_counter + 1	
 			else:
-				pass		
+				print "dont send me crap"
+				pass
+#			else:
+#				pass		
 	conn.close()
 
 def process_4_listen():
@@ -265,30 +261,29 @@ def process_4_listen():
 		if data:
 			data = data.rstrip('\n')	
 			words = data.split(' ')
-			if (int(words[2]) != 8004):
-				if (words[0] == 'ping'):
-					if ((process_4_state == 'HELD') or (process_4_voted == 'TRUE')):
-						process_4_queue.append(int(words[2]))
-					else:
-						Thread(target = send_thread_at_will, args=('pong 4 8004', int(words[2]))).start()
-						process_4_voted = 'TRUE'
-				elif (words[0] == 'release'):
-					if not process_4_queue:
-						process_4_voted = 'FALSE'
-					else:
-						Thread(target = send_thread_at_will, args=('token 4 8004', int(words[2]))).start()
-						process_4_voted = 'TRUE'
-						process_4_queue.pop()	
-				elif (words[0] == 'pong'):
-					process_4_counter += 1
-					pass
-				elif (words[0] == 'token'):
-					pass
+#			if (int(words[2]) != 8004):
+			if (words[0] == 'ping'):
+				if ((process_4_state == 'HELD') or (process_4_voted == 'TRUE')):
+					process_4_queue.append(int(words[2]))
 				else:
-					print "dont send me crap"
-					pass	
+					Thread(target = send_thread_at_will, args=('pong 4 8004', int(words[2]))).start()
+					process_4_voted = 'TRUE'
+			elif (words[0] == 'release'):
+				if not process_4_queue:
+					process_4_voted = 'FALSE'
+				else:
+					Thread(target = send_thread_at_will, args=('token 4 8004', int(words[2]))).start()
+					process_4_voted = 'TRUE'
+					process_4_queue.pop()	
+			elif (words[0] == 'pong'):
+				process_4_counter = process_4_counter + 1
+			elif (words[0] == 'token'):
+				process_4_counter = process_4_counter + 1
 			else:
-				pass		
+				print "dont send me crap"
+				pass	
+#			else:
+#				pass		
 	conn.close()
 	
 def process_5_listen():
@@ -302,30 +297,29 @@ def process_5_listen():
 		if data:
 			data = data.rstrip('\n')	
 			words = data.split(' ')
-			if (int(words[2]) != 8005):
-				if (words[0] == 'ping'):
-					if ((process_5_state == 'HELD') or (process_5_voted == 'TRUE')):
-						process_5_queue.append(int(words[2]))
-					else:
-						Thread(target = send_thread_at_will, args=('pong 5 8005', int(words[2]))).start()
-						process_5_voted = 'TRUE'
-				elif (words[0] == 'release'):
-					if not process_5_queue:
-						process_5_voted = 'FALSE'
-					else:
-						Thread(target = send_thread_at_will, args=('token 5 8005', int(words[2]))).start()
-						process_5_voted = 'TRUE'
-						process_5_queue.pop()	
-				elif (words[0] == 'pong'):
-					process_5_counter += 1
-					pass
-				elif (words[0] == 'token'):
-					pass
+#			if (int(words[2]) != 8005):
+			if (words[0] == 'ping'):
+				if ((process_5_state == 'HELD') or (process_5_voted == 'TRUE')):
+					process_5_queue.append(int(words[2]))
 				else:
-					print "dont send me crap"
-					pass
+					Thread(target = send_thread_at_will, args=('pong 5 8005', int(words[2]))).start()
+					process_5_voted = 'TRUE'
+			elif (words[0] == 'release'):
+				if not process_5_queue:
+					process_5_voted = 'FALSE'
+				else:
+					Thread(target = send_thread_at_will, args=('token 5 8005', int(words[2]))).start()
+					process_5_voted = 'TRUE'
+					process_5_queue.pop()	
+			elif (words[0] == 'pong'):
+				process_5_counter = process_5_counter + 1
+			elif (words[0] == 'token'):
+				process_5_counter = process_5_counter + 1
 			else:
-				pass		
+				print "dont send me crap"
+				pass
+#			else:
+#				pass		
 	conn.close()
 	
 def process_6_listen():
@@ -339,30 +333,29 @@ def process_6_listen():
 		if data:
 			data = data.rstrip('\n')	
 			words = data.split(' ')
-			if (int(words[2]) != 8006):
-				if (words[0] == 'ping'):
-					if ((process_6_state == 'HELD') or (process_6_voted == 'TRUE')):
-						process_6_queue.append(int(words[2]))
-					else:
-						Thread(target = send_thread_at_will, args=('pong 6 8006', int(words[2]))).start()
-						process_6_voted = 'TRUE'
-				elif (words[0] == 'release'):
-					if not process_6_queue:
-						process_6_voted = 'FALSE'
-					else:
-						Thread(target = send_thread_at_will, args=('token 6 8006', int(words[2]))).start()
-						process_6_voted = 'TRUE'
-						process_6_queue.pop()	
-				elif (words[0] == 'pong'):
-					process_6_counter += 1
-					pass
-				elif (words[0] == 'token'):
-					pass
+#			if (int(words[2]) != 8006):
+			if (words[0] == 'ping'):
+				if ((process_6_state == 'HELD') or (process_6_voted == 'TRUE')):
+					process_6_queue.append(int(words[2]))
 				else:
-					print "dont send me crap"
-					pass
+					Thread(target = send_thread_at_will, args=('pong 6 8006', int(words[2]))).start()
+					process_6_voted = 'TRUE'
+			elif (words[0] == 'release'):
+				if not process_6_queue:
+					process_6_voted = 'FALSE'
+				else:
+					Thread(target = send_thread_at_will, args=('token 6 8006', int(words[2]))).start()
+					process_6_voted = 'TRUE'
+					process_6_queue.pop()	
+			elif (words[0] == 'pong'):
+				process_6_counter = process_6_counter + 1
+			elif (words[0] == 'token'):
+				process_6_counter = process_6_counter + 1
 			else:
-				pass		
+				print "dont send me crap"
+				pass
+#			else:
+#				pass		
 	conn.close()
 
 def process_7_listen():
@@ -376,30 +369,29 @@ def process_7_listen():
 		if data:
 			data = data.rstrip('\n')	
 			words = data.split(' ')
-			if (int(words[2]) != 8007):
-				if (words[0] == 'ping'):
-					if ((process_7_state == 'HELD') or (process_7_voted == 'TRUE')):
-						process_7_queue.append(int(words[2]))
-					else:
-						Thread(target = send_thread_at_will, args=('pong 7 8007', int(words[2]))).start()
-						process_7_voted = 'TRUE'
-				elif (words[0] == 'release'):
-					if not process_7_queue:
-						process_7_voted = 'FALSE'
-					else:
-						Thread(target = send_thread_at_will, args=('token 7 8007', int(words[2]))).start()
-						process_7_voted = 'TRUE'
-						process_7_queue.pop()	
-				elif (words[0] == 'pong'):
-					process_7_counter += 1
-					pass
-				elif (words[0] == 'token'):
-					pass
+#			if (int(words[2]) != 8007):
+			if (words[0] == 'ping'):
+				if ((process_7_state == 'HELD') or (process_7_voted == 'TRUE')):
+					process_7_queue.append(int(words[2]))
 				else:
-					print "dont send me crap"
-					pass
+					Thread(target = send_thread_at_will, args=('pong 7 8007', int(words[2]))).start()
+					process_7_voted = 'TRUE'
+			elif (words[0] == 'release'):
+				if not process_7_queue:
+					process_7_voted = 'FALSE'
+				else:
+					Thread(target = send_thread_at_will, args=('token 7 8007', int(words[2]))).start()
+					process_7_voted = 'TRUE'
+					process_7_queue.pop()	
+			elif (words[0] == 'pong'):
+				process_7_counter = process_7_counter + 1
+			elif (words[0] == 'token'):
+				process_7_counter = process_7_counter + 1
 			else:
-				pass		
+				print "dont send me crap"
+				pass
+#			else:
+#				pass		
 	conn.close()
 
 def process_8_listen():
@@ -413,30 +405,29 @@ def process_8_listen():
 		if data:
 			data = data.rstrip('\n')	
 			words = data.split(' ')
-			if (int(words[2]) != 8008):
-				if (words[0] == 'ping'):
-					if ((process_8_state == 'HELD') or (process_8_voted == 'TRUE')):
-						process_8_queue.append(int(words[2]))
-					else:
-						Thread(target = send_thread_at_will, args=('pong 8 8008', int(words[2]))).start()
-						process_8_voted = 'TRUE'
-				elif (words[0] == 'release'):
-					if not process_8_queue:
-						process_8_voted = 'FALSE'
-					else:
-						Thread(target = send_thread_at_will, args=('token 8 8008', int(words[2]))).start()
-						process_8_voted = 'TRUE'
-						process_8_queue.pop()	
-				elif (words[0] == 'pong'):
-					process_8_counter += 1
-					pass
-				elif (words[0] == 'token'):
-					pass
+#			if (int(words[2]) != 8008):
+			if (words[0] == 'ping'):
+				if ((process_8_state == 'HELD') or (process_8_voted == 'TRUE')):
+					process_8_queue.append(int(words[2]))
 				else:
-					print "dont send me crap"
-					pass
+					Thread(target = send_thread_at_will, args=('pong 8 8008', int(words[2]))).start()
+					process_8_voted = 'TRUE'
+			elif (words[0] == 'release'):
+				if not process_8_queue:
+					process_8_voted = 'FALSE'
+				else:
+					Thread(target = send_thread_at_will, args=('token 8 8008', int(words[2]))).start()
+					process_8_voted = 'TRUE'
+					process_8_queue.pop()	
+			elif (words[0] == 'pong'):
+				process_8_counter = process_8_counter + 1
+			elif (words[0] == 'token'):
+				process_8_counter = process_8_counter + 1
 			else:
-				pass		
+				print "dont send me crap"
+				pass
+#			else:
+#				pass		
 	conn.close()
 
 def process_9_listen():
@@ -450,30 +441,29 @@ def process_9_listen():
 		if data:
 			data = data.rstrip('\n')	
 			words = data.split(' ')
-			if (int(words[2]) != 8009):
-				if (words[0] == 'ping'):
-					if ((process_9_state == 'HELD') or (process_9_voted == 'TRUE')):
-						process_9_queue.append(int(words[2]))
-					else:
-						Thread(target = send_thread_at_will, args=('pong 9 8009', int(words[2]))).start()
-						process_9_voted = 'TRUE'
-				elif (words[0] == 'release'):
-					if not process_9_queue:
-						process_9_voted = 'FALSE'
-					else:
-						Thread(target = send_thread_at_will, args=('token 1 8001', int(words[2]))).start()
-						process_9_voted = 'TRUE'
-						process_9_queue.pop()	
-				elif (words[0] == 'pong'):
-					process_9_counter += 1
-					pass
-				elif (words[0] == 'token'):
-					pass
+#			if (int(words[2]) != 8009):
+			if (words[0] == 'ping'):
+				if ((process_9_state == 'HELD') or (process_9_voted == 'TRUE')):
+					process_9_queue.append(int(words[2]))
 				else:
-					print "dont send me crap"
-					pass
+					Thread(target = send_thread_at_will, args=('pong 9 8009', int(words[2]))).start()
+					process_9_voted = 'TRUE'
+			elif (words[0] == 'release'):
+				if not process_9_queue:
+					process_9_voted = 'FALSE'
+				else:
+					Thread(target = send_thread_at_will, args=('token 1 8001', int(words[2]))).start()
+					process_9_voted = 'TRUE'
+					process_9_queue.pop()	
+			elif (words[0] == 'pong'):
+				process_9_counter = process_9_counter + 1
+			elif (words[0] == 'token'):
+				process_9_counter = process_9_counter + 1
 			else:
-				pass		
+				print "dont send me crap"
+				pass
+#			else:
+#				pass		
 	conn.close()
 #--------------------------------------------------------------
 def process_1():
@@ -499,7 +489,7 @@ def process_1():
 				break
 			else:
 				time.sleep(0.5)
-				print "counter = ", process_1_counter
+				print "counter1 = ", process_1_counter
 				pass
 		#held
 		process_1_state = 'HELD'
@@ -536,6 +526,7 @@ def process_2():
 				break
 			else:
 				time.sleep(0.5)
+				print "counter2 = ", process_2_counter
 				pass
 		#held
 		process_2_state = 'HELD'
@@ -572,6 +563,7 @@ def process_3():
 				break
 			else:
 				time.sleep(0.5)
+				print "counter3 = ", process_3_counter
 				pass
 		#held
 		process_3_state = 'HELD'
@@ -608,6 +600,7 @@ def process_4():
 				break
 			else:
 				time.sleep(0.5)
+				print "counter4 = ", process_4_counter
 				pass
 		#held
 		process_4_state = 'HELD'
@@ -643,6 +636,7 @@ def process_5():
 				process_5_counter = 0
 				break
 			else:
+				print "counter5 = ", process_5_counter
 				time.sleep(0.5)
 				pass
 		#held
@@ -680,6 +674,7 @@ def process_6():
 				break
 			else:
 				time.sleep(0.5)
+				print "counter6 = ", process_6_counter
 				pass
 		#held
 		process_6_state = 'HELD'
@@ -716,6 +711,7 @@ def process_7():
 				break
 			else:
 				time.sleep(0.5)
+				print "counter7 = ", process_7_counter
 				pass
 		#held
 		process_7_state = 'HELD'
@@ -752,6 +748,7 @@ def process_8():
 				break
 			else:
 				time.sleep(0.5)
+				print "counter8 = ", process_8_counter
 				pass
 		#held
 		process_8_state = 'HELD'
@@ -788,6 +785,7 @@ def process_9():
 				break
 			else:
 				time.sleep(0.5)
+				print "counter9 = ", process_9_counter
 				pass
 		#held
 		process_9_state = 'HELD'
