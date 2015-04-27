@@ -499,7 +499,7 @@ def process_1():
 				break
 			else:
 				time.sleep(0.5)
-				print "got it"
+				print "counter = ", process_1_counter
 				pass
 		#held
 		process_1_state = 'HELD'
