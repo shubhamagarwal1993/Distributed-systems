@@ -4,9 +4,9 @@
 import socket, sys, thread, threading, time, readline, io, random, re, os, subprocess, datetime
 #from nodes import process_1, process_2, process_3, process_4, process_5, process_6, process_7, process_8, process_9 
 from threading import Thread, Lock
-cs_int = 5
-next_req = 5
-tot_exec_time = 13
+#cs_int
+#next_req
+#tot_exec_time
 process_1_state = 'RELEASED'
 process_1_voted = 'FALSE'
 process_2_state = 'RELEASED'
@@ -69,6 +69,7 @@ s.bind((TCP_IP, int(TCP_PORT_MAIN)))
 s.listen(1)
 #----------------------------------------------------------------------------------------------------
 def send_thread_at_will(msg, dest):
+	global options
 	have = 0
 	while (have == 0):
 		try:
@@ -77,6 +78,8 @@ def send_thread_at_will(msg, dest):
 			s.send(msg)
 			s.close()
 			have = 1
+			if (options == 1):
+				print "data", msg
 		except error,msg:
 			have = 0
 			pass
@@ -196,7 +199,7 @@ class Node:
 		pass
 #-------------------------------------------------------------------------------------------------
 def process_1_listen():
-	global process_1_state, process_1_voted, process_1_queue, process_1_counter
+	global process_1_state, process_1_voted, process_1_queue, process_1_counter, options
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	s.bind((TCP_IP, int(TCP_PORT_PROCESS1)))
 	s.listen(20)
@@ -204,10 +207,11 @@ def process_1_listen():
 		conn, addr = s.accept()
 		data = conn.recv(1024)
 		if data:
-#			print "data1", data
 			#print "process_1_queue", process_1_queue
 			data = data.rstrip('\n')	
 			words = data.split(' ')
+			if (options == 1):
+				print "data1", data
 			if (words[0] == 'ping'):
 				if ((process_1_state == 'HELD') or (process_1_voted == 'TRUE')):
 					process_1_queue.append(int(words[2]))
@@ -230,14 +234,19 @@ def process_1_listen():
 
 def run_by_queue2():
 	global process_2_queue
-	time.sleep(1)
-	temp1 = process_queue[0]
-	temp = process_2_queue[0][1]	
-	for i in range(len(process_2_queue)):
-		if(process_2_queue[i][1] < temp):
-			temp = process_2_queue[i][1]		#got the earliest time stamp
-			temp1 = process_2_queue[0]
-	#have to send this packet back
+	while True:
+		time.sleep(3)
+		if not process_2_queue:
+			pass
+		else:
+			temp1 = process_queue[0]
+			temp = process_2_queue[0][1]	
+			for i in range(len(process_2_queue)):
+				if(process_2_queue[i][1] < temp):
+					temp = process_2_queue[i][1]		#got the earliest time stamp
+					temp1 = process_2_queue[0]
+			print "earliest arrived packet = ", temp1
+			#have to send this packet back
 		
 def process_2_listen():
 	global process_2_state, process_2_voted, process_2_queue, process_2_counter
@@ -250,6 +259,8 @@ def process_2_listen():
 		if data:
 #			print "data2", data
 			#print "process_1_queue", process_1_queue
+			if (options == 1):
+				print "data2", data
 			data = data.rstrip('\n')	
 			words = data.split(' ')
 			if (words[0] == 'ping'):
@@ -285,6 +296,8 @@ def process_3_listen():
 #			print "data3", data
 #			print "process_3_queue", process_3_queue
 #			print "3data = ", data		
+			if (options == 1):
+				print "data3", data
 			data = data.rstrip('\n')	
 			words = data.split(' ')
 			if (words[0] == 'ping'):
@@ -318,6 +331,8 @@ def process_4_listen():
 		if data:
 #			print "data4", data
 #			print "process_4_queue", process_4_queue
+			if (options == 1):
+				print "data4", data
 			data = data.rstrip('\n')	
 			words = data.split(' ')
 			if (words[0] == 'ping'):
@@ -351,6 +366,8 @@ def process_5_listen():
 		if data:
 #			print "data5", data
 #			print "process_5_queue", process_5_queue
+			if (options == 1):
+				print "data5", data
 			data = data.rstrip('\n')	
 			words = data.split(' ')
 			if (words[0] == 'ping'):
@@ -384,6 +401,8 @@ def process_6_listen():
 		if data:
 #			print "data6", data	
 #			print "process_6_queue", process_6_queue
+			if (options == 1):
+				print "data6", data
 			data = data.rstrip('\n')	
 			words = data.split(' ')
 			if (words[0] == 'ping'):
@@ -419,6 +438,8 @@ def process_7_listen():
 #			print "process_7_queue", process_7_queue
 			data = data.rstrip('\n')	
 			words = data.split(' ')
+			if (options == 1):
+				print "data7", data
 			if (words[0] == 'ping'):
 				if ((process_7_state == 'HELD') or (process_7_voted == 'TRUE')):
 					process_7_queue.append(int(words[2]))
@@ -450,6 +471,8 @@ def process_8_listen():
 		if data:
 #			print "data8", data
 #			print "process_8_queue", process_8_queue
+			if (options == 1):
+				print "data8", data
 			data = data.rstrip('\n')	
 			words = data.split(' ')
 			if (words[0] == 'ping'):
@@ -483,6 +506,8 @@ def process_9_listen():
 		if data:
 #			print "data9", data
 #			print "process_9_queue", process_9_queue
+			if (options == 1):
+				print "data9", data
 			data = data.rstrip('\n')	
 			words = data.split(' ')
 			if (words[0] == 'ping'):
@@ -921,6 +946,24 @@ def process_9():
 #a = processes()
 #thread.start_new_thread(a.test, ())
 
+#thread.start_new_thread(deadlock_detection_thread, ())
+
+if __name__ == "__main__":
+	global cs_int, next_req, tot_exec_time, options
+	args = sys.argv
+	if ((len(args) < 4) or (len(args) > 5)):
+		print "incorrect arguments provided"
+		print "Bye..!"
+		os._exit(0)
+	else:
+		cs_int = args[1]
+		next_req = args[2]
+		tot_exec_time = args[3]
+		if (len(args) == 5):
+			options = args[4]
+		else:
+			options = 0
+
 thread.start_new_thread(process_1, ())
 thread.start_new_thread(process_2, ())
 thread.start_new_thread(process_3, ())
@@ -939,7 +982,9 @@ thread.start_new_thread(process_6_listen, ())
 thread.start_new_thread(process_7_listen, ())
 thread.start_new_thread(process_8_listen, ())
 thread.start_new_thread(process_9_listen, ())
-#thread.start_new_thread(deadlock_detection_thread, ())
+thread.start_new_thread(run_by_queue2, ())		
+
+
 while 1:
 	try:
 		instruction = raw_input("")
