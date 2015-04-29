@@ -3,7 +3,7 @@
 #!/usr/bin/env python
 import socket, sys, thread, threading, time, readline, io, random, re, os, subprocess, datetime
 #from nodes import process_1, process_2, process_3, process_4, process_5, process_6, process_7, process_8, process_9 
-from threading import Thread
+from threading import Thread, Lock
 cs_int = 5
 next_req = 5
 tot_exec_time = 13
@@ -43,6 +43,7 @@ process_6_counter = 0
 process_7_counter = 0
 process_8_counter = 0
 process_9_counter = 0
+mutex = Lock()
 #-----------------------------------------------------------------------------------
 def code_exit():
 	global tot_exec_time
@@ -207,27 +208,24 @@ def process_1_listen():
 			#print "process_1_queue", process_1_queue
 			data = data.rstrip('\n')	
 			words = data.split(' ')
-			if (int(words[2]) != 8001):
-				if (words[0] == 'ping'):
-					if ((process_1_state == 'HELD') or (process_1_voted == 'TRUE')):
-						process_1_queue.append(int(words[2]))
-					else:
-						Thread(target = send_thread_at_will, args=('pong 1 8001', int(words[2]))).start()
-						process_1_voted = 'TRUE'
-				elif (words[0] == 'release'):
-					if not process_1_queue:
-						process_1_voted = 'FALSE'
-					else:
-						Thread(target = send_thread_at_will, args=('pong 1 8001', int(process_1_queue[0]))).start()
-						process_1_voted = 'TRUE'
-						process_1_queue.pop()
-				elif (words[0] == 'pong'):
-					process_1_counter = process_1_counter + 1
+			if (words[0] == 'ping'):
+				if ((process_1_state == 'HELD') or (process_1_voted == 'TRUE')):
+					process_1_queue.append(int(words[2]))
 				else:
-					print "dont send me crap in 1"
-					pass
+					Thread(target = send_thread_at_will, args=('pong 1 8001', int(words[2]))).start()
+					process_1_voted = 'TRUE'
+			elif (words[0] == 'release'):
+				if not process_1_queue:
+					process_1_voted = 'FALSE'
+				else:
+					Thread(target = send_thread_at_will, args=('pong 1 8001', int(process_1_queue[0]))).start()
+					process_1_voted = 'TRUE'
+					process_1_queue.pop()
+			elif (words[0] == 'pong'):
+				process_1_counter = process_1_counter + 1
 			else:
-				pass		
+				print "dont send me crap in 1"
+				pass
 	conn.close()
 
 def run_by_queue2():
@@ -241,7 +239,6 @@ def run_by_queue2():
 			temp1 = process_2_queue[0]
 	#have to send this packet back
 		
-
 def process_2_listen():
 	global process_2_state, process_2_voted, process_2_queue, process_2_counter
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -249,59 +246,32 @@ def process_2_listen():
 	s.listen(20)
 	while True:
 		conn, addr = s.accept()
-		data = conn.recv(1024)		
+		data = conn.recv(1024)
 		if data:
 			print "data2", data
-			#print "process_2_queue", process_2_queue		
-#			print "2data = ", data
+			#print "process_1_queue", process_1_queue
 			data = data.rstrip('\n')	
 			words = data.split(' ')
-			process_2_queue.append([words[0], words[1], words[2]])
-
-
-			thread.start_new_thread(run_by_queue2, ())
-			
-		#	if ((process_2_state == 'HELD') or (process_2_voted == 'TRUE')):
-		#		process_2_queue.append(int(words[2]))
-		#	else:
-		#		Thread(target = send_thread_at_will, args=('pong 2 8002', int(words[2]))).start()
-		#		process_2_voted = 'TRUE'
-			if (int(words[2]) != 8002):
-				if (words[0] == 'ping'):
-					#put in queue with timestamps
-					# currenttime = system.currentinmillis			
-					if ((process_2_state == 'HELD') or (process_2_voted == 'TRUE')):
-						process_2_queue.append(int(words[2]))
-					else:
-						Thread(target = send_thread_at_will, args=('pong 2 8002', int(words[2]))).start()
-						process_2_voted = 'TRUE'
-				elif (words[0] == 'release'):
-					if not process_2_queue:
-						process_2_voted = 'FALSE'
-					else:
-						Thread(target = send_thread_at_will, args=('pong 2 8002', int(process_2_queue[0]))).start()
-						process_2_voted = 'TRUE'
-						process_2_queue.pop()
-				elif (words[0] == 'pong'):
-					process_2_counter = process_2_counter + 1
+			if (words[0] == 'ping'):
+				if ((process_2_state == 'HELD') or (process_2_voted == 'TRUE')):
+					process_2_queue.append(int(words[2]))
 				else:
-					print "dont send me crap"
-					pass
+					Thread(target = send_thread_at_will, args=('pong 2 8002', int(words[2]))).start()
+					process_2_voted = 'TRUE'
+			elif (words[0] == 'release'):
+				if not process_2_queue:
+					process_2_voted = 'FALSE'
+				else:
+					Thread(target = send_thread_at_will, args=('pong 2 8002', int(process_2_queue[0]))).start()
+					process_2_voted = 'TRUE'
+					process_2_queue.pop()
+			elif (words[0] == 'pong'):
+				process_2_counter = process_2_counter + 1
 			else:
-				pass	
-				
-		##
-		## if (syst.currtime - current > 200) 
-		## find the earliest timestamp in the queue 
-		## Send it back 
-		
-				#	if ((process_2_state == 'HELD') or (process_2_voted == 'TRUE')):
-				#		process_2_queue.append(int(words[2]))
-				#	else:
-				#		Thread(target = send_thread_at_will, args=('pong 2 8002', int(words[2]))).start()
-				#		process_2_voted = 'TRUE'
-		 			
+				print "dont send me crap in 2"
+				pass
 	conn.close()
+
 
 def process_3_listen():
 	global process_3_state, process_3_voted, process_3_queue, process_3_counter
@@ -566,37 +536,42 @@ def process_1():
 		time.sleep(int(next_req))
 		process_1_state = 'WANTED'
 				#multicast request messages to all processes
-		curr_time = datetime.time.now()
-		msg_to_send = "ping" + " " + curr_time + " " + 8001 
-		Thread(target = send_thread_at_will, args=(msg_to_send, 8001)).start()
-		Thread(target = send_thread_at_will, args=(msg_to_send, 8002)).start()
-		Thread(target = send_thread_at_will, args=(msg_to_send, 8003)).start()
-		Thread(target = send_thread_at_will, args=(msg_to_send, 8004)).start()
-		Thread(target = send_thread_at_will, args=(msg_to_send, 8007)).start()	
-				#wait for reply from all the processes
-		while True:
-			if (process_1_counter >= 5):
-				process_1_counter = 0
-				break
-			else:
-				time.sleep(0.5)
-				print "counter1 = ", process_1_counter
-				pass
-		#held
-		process_1_state = 'HELD'
-		print "Process1CS -> Time:%s, Thread_identifier:node1, node-list: 1 2 3 4 7",  datetime.datetime.now()
-		time.sleep(int(cs_int))
-		#exit
-		process_1_state = 'RELEASED'
-		#multicast release to all processes in condition
-		curr_time = datetime.time.now()
-		msg_to_send = "release" + " " + curr_time + " " + 8001
-		Thread(target = send_thread_at_will, args=(msg_to_send, 8001)).start()
-		Thread(target = send_thread_at_will, args=(msg_to_send, 8002)).start()		
-		Thread(target = send_thread_at_will, args=(msg_to_send, 8003)).start()
-		Thread(target = send_thread_at_will, args=(msg_to_send, 8004)).start()
-		Thread(target = send_thread_at_will, args=(msg_to_send, 8007)).start()
-		
+		curr_time = datetime.datetime.now().time()
+		msg_to_send = "ping" + " " + str(curr_time) + " " + "8001"
+		if not mutex.acquire():
+			time.sleep(0.5)
+			pass
+		else:
+			Thread(target = send_thread_at_will, args=(msg_to_send, 8001)).start()
+			Thread(target = send_thread_at_will, args=(msg_to_send, 8002)).start()
+			Thread(target = send_thread_at_will, args=(msg_to_send, 8003)).start()
+			Thread(target = send_thread_at_will, args=(msg_to_send, 8004)).start()
+			Thread(target = send_thread_at_will, args=(msg_to_send, 8007)).start()	
+					#wait for reply from all the processes
+			while True:
+				if (process_1_counter >= 5):
+					process_1_counter = 0
+					break
+				else:
+					time.sleep(0.5)
+					print "counter1 = ", process_1_counter
+					pass
+			#held
+			process_1_state = 'HELD'
+			print "Process1CS -> Time:%s, Thread_identifier:node1, node-list: 1 2 3 4 7",  datetime.datetime.now()
+			time.sleep(int(cs_int))
+			#exit
+			process_1_state = 'RELEASED'
+			#multicast release to all processes in condition
+			curr_time = datetime.datetime.now().time()
+			msg_to_send = "release" + " " + str(curr_time) + " " + str(8001)
+			Thread(target = send_thread_at_will, args=(msg_to_send, 8001)).start()
+			Thread(target = send_thread_at_will, args=(msg_to_send, 8002)).start()		
+			Thread(target = send_thread_at_will, args=(msg_to_send, 8003)).start()
+			Thread(target = send_thread_at_will, args=(msg_to_send, 8004)).start()
+			Thread(target = send_thread_at_will, args=(msg_to_send, 8007)).start()
+			mutex.release()
+					
 def process_2():
 	global cs_int, next_req, tot_exec_time, process_2_state, process_2_voted, process_2_counter
 	#init
@@ -607,7 +582,7 @@ def process_2():
 		time.sleep(int(next_req))
 		process_2_state = 'WANTED'
 				#multicast request messages to all processes
-		curr_time = datetime.time.now()
+		curr_time = datetime.datetime.now().time()
 		msg_to_send = "ping" + " " + curr_time + " " + 8002
 		Thread(target = send_thread_at_will, args=(msg_to_send, 8001)).start()
 		Thread(target = send_thread_at_will, args=(msg_to_send, 8002)).start()
@@ -630,7 +605,7 @@ def process_2():
 		#exit
 		process_2_state = 'RELEASED'
 		#multicast release to all processes in condition
-		curr_time = datetime.time.now()
+		curr_time = datetime.datetime.now().time()
 		msg_to_send = "release" + " " + curr_time + " " + 8002
 		Thread(target = send_thread_at_will, args=(msg_to_send, 8001)).start()
 		Thread(target = send_thread_at_will, args=(msg_to_send, 8002)).start()		
@@ -648,7 +623,7 @@ def process_3():
 		time.sleep(int(next_req))
 		process_3_state = 'WANTED'
 				#multicast request messages to all processes
-		curr_time = datetime.time.now()
+		curr_time = datetime.datetime.now().time()
 		msg_to_send = "ping" + " " + curr_time + " " + 8003		
 		Thread(target = send_thread_at_will, args=(msg_to_send, 8001)).start()
 		Thread(target = send_thread_at_will, args=(msg_to_send, 8002)).start()
@@ -671,7 +646,7 @@ def process_3():
 		#exit
 		process_3_state = 'RELEASED'
 		#multicast release to all processes in condition
-		curr_time = datetime.time.now()
+		curr_time = datetime.datetime.now().time()
 		msg_to_send = "release" + " " + curr_time + " " + 8003		
 		Thread(target = send_thread_at_will, args=(msg_to_send, 8001)).start()
 		Thread(target = send_thread_at_will, args=(msg_to_send, 8002)).start()		
@@ -689,7 +664,7 @@ def process_4():
 		time.sleep(int(next_req))
 		process_4_state = 'WANTED'
 				#multicast request messages to all processes
-		curr_time = datetime.time.now()
+		curr_time = datetime.datetime.now().time()
 		msg_to_send = "ping" + " " + curr_time + " " + 8004		
 		Thread(target = send_thread_at_will, args=(msg_to_send, 8001)).start()
 		Thread(target = send_thread_at_will, args=(msg_to_send, 8004)).start()
@@ -712,7 +687,7 @@ def process_4():
 		#exit
 		process_4_state = 'RELEASED'
 		#multicast release to all processes in condition
-		curr_time = datetime.time.now()
+		curr_time = datetime.datetime.now().time()
 		msg_to_send = "release" + " " + curr_time + " " + 8004				
 		Thread(target = send_thread_at_will, args=(msg_to_send, 8001)).start()
 		Thread(target = send_thread_at_will, args=(msg_to_send, 8004)).start()		
@@ -910,9 +885,9 @@ def process_9():
 #thread.start_new_thread(a.test, ())
 
 thread.start_new_thread(process_1, ())
-thread.start_new_thread(process_2, ())
-thread.start_new_thread(process_3, ())
-thread.start_new_thread(process_4, ())
+#thread.start_new_thread(process_2, ())
+#thread.start_new_thread(process_3, ())
+#thread.start_new_thread(process_4, ())
 #thread.start_new_thread(process_5, ())
 #thread.start_new_thread(process_6, ())
 #thread.start_new_thread(process_7, ())
