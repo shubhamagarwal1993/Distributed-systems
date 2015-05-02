@@ -50,7 +50,7 @@ def code_exit():
 	time.sleep(int(tot_exec_time))
 	print "Bye..!"
 	os._exit(0)
-	print "hahahahaha"
+#	print "hahahahaha"
 #thread.start_new_thread(code_exit, ())
 #-----------------------------------------------------------------------------------
 TCP_IP = '127.0.0.1'
@@ -207,6 +207,7 @@ def process_1_listen():
 		conn, addr = s.accept()
 		data = conn.recv(1024)
 		if data:
+#			print "options for 1 is, ", options
 			#print "process_1_queue", process_1_queue
 			data = data.rstrip('\n')	
 			words = data.split(' ')
@@ -249,7 +250,7 @@ def run_by_queue2():
 			#have to send this packet back
 		
 def process_2_listen():
-	global process_2_state, process_2_voted, process_2_queue, process_2_counter
+	global process_2_state, process_2_voted, process_2_queue, process_2_counter, options
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	s.bind((TCP_IP, int(TCP_PORT_PROCESS2)))
 	s.listen(20)
@@ -257,6 +258,8 @@ def process_2_listen():
 		conn, addr = s.accept()
 		data = conn.recv(1024)
 		if data:
+#			print "data2", data
+#			print "options for 2 is, ", options
 #			print "data2", data
 			#print "process_1_queue", process_1_queue
 			if (options == 1):
@@ -285,7 +288,7 @@ def process_2_listen():
 
 
 def process_3_listen():
-	global process_3_state, process_3_voted, process_3_queue, process_3_counter
+	global process_3_state, process_3_voted, process_3_queue, process_3_counter, options
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	s.bind((TCP_IP, int(TCP_PORT_PROCESS3)))
 	s.listen(20)
@@ -321,7 +324,7 @@ def process_3_listen():
 	conn.close()
 
 def process_4_listen():
-	global process_4_state, process_4_voted, process_4_queue, process_4_counter
+	global process_4_state, process_4_voted, process_4_queue, process_4_counter, options
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	s.bind((TCP_IP, int(TCP_PORT_PROCESS4)))
 	s.listen(20)
@@ -356,7 +359,7 @@ def process_4_listen():
 	conn.close()
 	
 def process_5_listen():
-	global process_5_state, process_5_voted, process_5_queue, process_5_counter
+	global process_5_state, process_5_voted, process_5_queue, process_5_counter, options
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	s.bind((TCP_IP, int(TCP_PORT_PROCESS5)))
 	s.listen(20)
@@ -391,7 +394,7 @@ def process_5_listen():
 	conn.close()
 	
 def process_6_listen():
-	global process_6_state, process_6_voted, process_6_queue, process_6_counter
+	global process_6_state, process_6_voted, process_6_queue, process_6_counter, options
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	s.bind((TCP_IP, int(TCP_PORT_PROCESS6)))
 	s.listen(20)
@@ -426,7 +429,7 @@ def process_6_listen():
 	conn.close()
 
 def process_7_listen():
-	global process_7_state, process_7_voted, process_7_queue, process_7_counter
+	global process_7_state, process_7_voted, process_7_queue, process_7_counter, options
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	s.bind((TCP_IP, int(TCP_PORT_PROCESS7)))
 	s.listen(20)
@@ -461,7 +464,7 @@ def process_7_listen():
 	conn.close()
 
 def process_8_listen():
-	global process_8_state, process_8_voted, process_8_queue, process_8_counter
+	global process_8_state, process_8_voted, process_8_queue, process_8_counter, options
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	s.bind((TCP_IP, int(TCP_PORT_PROCESS8)))
 	s.listen(20)
@@ -496,7 +499,7 @@ def process_8_listen():
 	conn.close()
 
 def process_9_listen():
-	global process_9_state, process_9_voted, process_9_queue, process_9_counter
+	global process_9_state, process_9_voted, process_9_queue, process_9_counter, options
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	s.bind((TCP_IP, int(TCP_PORT_PROCESS9)))
 	s.listen(20)
@@ -505,6 +508,7 @@ def process_9_listen():
 		data = conn.recv(1024)
 		if data:
 #			print "data9", data
+#			print "options9", options
 #			print "process_9_queue", process_9_queue
 			if (options == 1):
 				print "data9", data
@@ -531,7 +535,7 @@ def process_9_listen():
 	conn.close()
 #--------------------------------------------------------------
 def process_1():
-	global cs_int, next_req, tot_exec_time, process_1_state, process_1_voted, process_1_counter
+	global cs_int, next_req, tot_exec_time, process_1_state, process_1_voted, process_1_counter, options
 	#init
 	process_1_state = 'RELEASED'
 	process_1_voted = 'FALSE'
@@ -558,7 +562,7 @@ def process_1():
 					break
 				else:
 					time.sleep(0.5)
-					print "counter1 = ", process_1_counter
+#					print "counter1 = ", process_1_counter
 					pass
 			#held
 			process_1_state = 'HELD'
@@ -577,7 +581,7 @@ def process_1():
 			mutex.release()
 					
 def process_2():
-	global cs_int, next_req, tot_exec_time, process_2_state, process_2_voted, process_2_counter
+	global cs_int, next_req, tot_exec_time, process_2_state, process_2_voted, process_2_counter, options
 	#init
 	process_2_state = 'RELEASED'
 	process_2_voted = 'FALSE'
@@ -604,7 +608,7 @@ def process_2():
 					break
 				else:
 					time.sleep(0.5)
-					print "counter2 = ", process_2_counter
+#					print "counter2 = ", process_2_counter
 					pass
 			#held
 			process_2_state = 'HELD'
@@ -622,7 +626,7 @@ def process_2():
 			Thread(target = send_thread_at_will, args=(msg_to_send, 8008)).start()
 			mutex.release()
 def process_3():
-	global cs_int, next_req, tot_exec_time, process_3_state, process_3_voted, process_3_counter
+	global cs_int, next_req, tot_exec_time, process_3_state, process_3_voted, process_3_counter, options
 	#init
 	process_3_state = 'RELEASED'
 	process_3_voted = 'FALSE'
@@ -649,7 +653,7 @@ def process_3():
 					break
 				else:
 					time.sleep(0.5)
-					print "counter3 = ", process_3_counter
+#					print "counter3 = ", process_3_counter
 					pass
 			#held
 			process_3_state = 'HELD'
@@ -668,7 +672,7 @@ def process_3():
 			mutex.release()
 					
 def process_4():
-	global cs_int, next_req, tot_exec_time, process_4_state, process_4_voted, process_4_counter
+	global cs_int, next_req, tot_exec_time, process_4_state, process_4_voted, process_4_counter, options
 	#init
 	process_4_state = 'RELEASED'
 	process_4_voted = 'FALSE'
@@ -695,7 +699,7 @@ def process_4():
 					break
 				else:
 					time.sleep(0.5)
-					print "counter4 = ", process_4_counter
+#					print "counter4 = ", process_4_counter
 					pass
 			#held
 			process_4_state = 'HELD'
@@ -714,7 +718,7 @@ def process_4():
 			mutex.release()
 					
 def process_5():
-	global cs_int, next_req, tot_exec_time, process_5_state, process_5_voted, process_5_counter
+	global cs_int, next_req, tot_exec_time, process_5_state, process_5_voted, process_5_counter, options
 	#init
 	process_5_state = 'RELEASED'
 	process_5_voted = 'FALSE'
@@ -741,7 +745,7 @@ def process_5():
 					break
 				else:
 					time.sleep(0.5)
-					print "counter5 = ", process_5_counter
+#					print "counter5 = ", process_5_counter
 					pass
 			#held
 			process_5_state = 'HELD'
@@ -760,7 +764,7 @@ def process_5():
 			mutex.release()
 
 def process_6():
-	global cs_int, next_req, tot_exec_time, process_6_state, process_6_voted, process_6_counter
+	global cs_int, next_req, tot_exec_time, process_6_state, process_6_voted, process_6_counter, options
 	#init
 	process_6_state = 'RELEASED'
 	process_6_voted = 'FALSE'
@@ -787,7 +791,7 @@ def process_6():
 					break
 				else:
 					time.sleep(0.5)
-					print "counter6 = ", process_6_counter
+#					print "counter6 = ", process_6_counter
 					pass
 			#held
 			process_6_state = 'HELD'
@@ -806,7 +810,7 @@ def process_6():
 			mutex.release()
 					
 def process_7():
-	global cs_int, next_req, tot_exec_time, process_7_state, process_7_voted, process_7_counter
+	global cs_int, next_req, tot_exec_time, process_7_state, process_7_voted, process_7_counter, options
 	#init
 	process_7_state = 'RELEASED'
 	process_7_voted = 'FALSE'
@@ -833,7 +837,7 @@ def process_7():
 					break
 				else:
 					time.sleep(0.5)
-					print "counter7 = ", process_7_counter
+#					print "counter7 = ", process_7_counter
 					pass
 			#held
 			process_7_state = 'HELD'
@@ -851,7 +855,7 @@ def process_7():
 			Thread(target = send_thread_at_will, args=(msg_to_send, 8009)).start()
 			mutex.release()
 def process_8():
-	global cs_int, next_req, tot_exec_time, process_8_state, process_8_voted, process_8_counter
+	global cs_int, next_req, tot_exec_time, process_8_state, process_8_voted, process_8_counter, options
 	#init
 	process_8_state = 'RELEASED'
 	process_8_voted = 'FALSE'
@@ -878,7 +882,7 @@ def process_8():
 					break
 				else:
 					time.sleep(0.5)
-					print "counter8 = ", process_8_counter
+#					print "counter8 = ", process_8_counter
 					pass
 			#held
 			process_8_state = 'HELD'
@@ -896,7 +900,7 @@ def process_8():
 			Thread(target = send_thread_at_will, args=(msg_to_send, 8009)).start()
 			mutex.release()
 def process_9():
-	global cs_int, next_req, tot_exec_time, process_9_state, process_9_voted, process_9_counter
+	global cs_int, next_req, tot_exec_time, process_9_state, process_9_voted, process_9_counter, options
 	#init
 	process_9_state = 'RELEASED'
 	process_9_voted = 'FALSE'
@@ -923,7 +927,7 @@ def process_9():
 					break
 				else:
 					time.sleep(0.5)
-					print "counter9 = ", process_9_counter
+#					print "counter9 = ", process_9_counter
 					pass
 			#held
 			process_9_state = 'HELD'
@@ -960,29 +964,29 @@ if __name__ == "__main__":
 		next_req = args[2]
 		tot_exec_time = args[3]
 		if (len(args) == 5):
-			options = args[4]
+			options = int(args[4])
 		else:
 			options = 0
-
-thread.start_new_thread(process_1, ())
-thread.start_new_thread(process_2, ())
-thread.start_new_thread(process_3, ())
-thread.start_new_thread(process_4, ())
-thread.start_new_thread(process_5, ())
-thread.start_new_thread(process_6, ())
-thread.start_new_thread(process_7, ())
-thread.start_new_thread(process_8, ())
-thread.start_new_thread(process_9, ())
-thread.start_new_thread(process_1_listen, ())
-thread.start_new_thread(process_2_listen, ())
-thread.start_new_thread(process_3_listen, ())
-thread.start_new_thread(process_4_listen, ())
-thread.start_new_thread(process_5_listen, ())
-thread.start_new_thread(process_6_listen, ())
-thread.start_new_thread(process_7_listen, ())
-thread.start_new_thread(process_8_listen, ())
-thread.start_new_thread(process_9_listen, ())
-thread.start_new_thread(run_by_queue2, ())		
+	print "your option was ", options
+	thread.start_new_thread(process_1, ())
+	thread.start_new_thread(process_2, ())
+	thread.start_new_thread(process_3, ())
+	thread.start_new_thread(process_4, ())
+	thread.start_new_thread(process_5, ())
+	thread.start_new_thread(process_6, ())
+	thread.start_new_thread(process_7, ())
+	thread.start_new_thread(process_8, ())
+	thread.start_new_thread(process_9, ())
+	thread.start_new_thread(process_1_listen, ())
+	thread.start_new_thread(process_2_listen, ())
+	thread.start_new_thread(process_3_listen, ())
+	thread.start_new_thread(process_4_listen, ())
+	thread.start_new_thread(process_5_listen, ())
+	thread.start_new_thread(process_6_listen, ())
+	thread.start_new_thread(process_7_listen, ())
+	thread.start_new_thread(process_8_listen, ())
+	thread.start_new_thread(process_9_listen, ())
+	thread.start_new_thread(run_by_queue2, ())		
 
 
 while 1:
